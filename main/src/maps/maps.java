@@ -1,6 +1,5 @@
 package maps;
 
-import core.World;
 import tileengine.DTile;
 import tileengine.TERenderer;
 import tileengine.TETile;
@@ -9,7 +8,7 @@ import tileengine.Tileset;
 public class maps {
     private static final int WIDTH = 101;
     private static final int HEIGHT = 101;
-    private static int RADIUS = 50;
+    private static final int RADIUS = 50;
 
     public static final TETile[][] CIRCLE_MAP = generateCircularMap(new TETile[WIDTH][HEIGHT]);
     public static final TETile[][] NEURITE_MAP = generateNeuriteMap(new TETile[WIDTH][HEIGHT]);
@@ -107,7 +106,7 @@ public class maps {
                         int nx = x + dx[i];
                         int ny = y + dy[i];
                         if (map[nx][ny] == Tileset.NOTHING) {
-                            map[nx][ny] = Tileset.FLOWER;
+                            map[nx][ny] = Tileset.WALL;
                         }
                     }
                 }
