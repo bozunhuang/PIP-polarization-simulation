@@ -3,6 +3,7 @@ package core;
 import tileengine.DTile;
 import tileengine.TETile;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class World {
@@ -418,4 +419,34 @@ public class World {
     public int getPhosphatasesInSolution() {return phosphatasesInSolution;}
 
     public int getTotalPhosphatases() {return totalPhosphatases;}
+
+    public double getAvgSystemX() {
+        double totalSystemX = 0;
+        int tileCount = 0;
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                if (worldGrid[x][y] instanceof DTile && Objects.equals(((DTile) worldGrid[x][y]).tracker, "")) {
+                    totalSystemX += ((DTile) worldGrid[x][y]).X;
+                    tileCount++;
+                }
+            }
+        }
+        return totalSystemX / tileCount;
+    }
+
+    public double getAvgDendriteX() {
+        double totalDendriteX = 0;
+        int tileCount = 0;
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                if (worldGrid[x][y] instanceof DTile && Objects.equals(((DTile) worldGrid[x][y]).tracker, "Dendrite")) {
+                    totalDendriteX += ((DTile) worldGrid[x][y]).X;
+                    tileCount++;
+                }
+            }
+        }
+        return totalDendriteX / tileCount;
+    }
+
+    public double polarizationIdx() {return getAvgDendriteX() / (getAvgSystemX() + getAvgDendriteX());}
 }

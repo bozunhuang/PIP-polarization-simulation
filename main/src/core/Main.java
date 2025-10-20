@@ -53,7 +53,6 @@ public class Main {
         double alphaPIP = dPIP * timestep / (patchLength * patchLength);
 
         System.out.println("Initializing stochastic enzyme simulation...");
-        System.out.println("ALPHA_PIP = " + alphaPIP);
 
         if (alphaPIP >= 0.25) {
             System.err.println("ERROR: Diffusion will be unstable!");
@@ -74,11 +73,11 @@ public class Main {
         long frameCount = 0;
         long startTime = System.currentTimeMillis();
 
-        while (frameCount < 2000){
+        while (!terminate(frameCount)){
             long frameStart = System.currentTimeMillis();
 
             world.upDateWorld();
-//            renderer.renderFrame(world.worldGrid);
+            renderer.renderFrame(world.worldGrid);
 
             frameCount++;
 
@@ -87,10 +86,10 @@ public class Main {
                 renderer.renderFrame(world.worldGrid);
                 long elapsed = System.currentTimeMillis() - startTime;
                 double fps = frameCount * 1000.0 / elapsed;
-                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d%n",
+                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d%nSystem AvgX: %.2f | Dendrite AvgX: %.2f | Polarization index: %f\n",
                         frameCount, fps,
-                        world.getKinasesInSolution(), world.getTotalKinases(),
-                        world.getPhosphatasesInSolution(), world.getTotalPhosphatases());
+                        world.getKinasesInSolution(), world.getTotalKinases(), world.getPhosphatasesInSolution(), world.getTotalPhosphatases(),
+                        world.getAvgSystemX(), world.getAvgDendriteX(), world.polarizationIdx());
             }
 
             // Frame rate limiting
@@ -103,5 +102,13 @@ public class Main {
 //                }
 //            }
         }
+        System.out.println("Done simulation!");
+    }
+
+    private static boolean terminate(double frameCount){
+        if  (frameCount >= 2000){
+            return true;
+        }
+        return world.polarizationIdx() >= 0.8;
     }
 }

@@ -60,6 +60,7 @@ public class maps {
         int r1 = RADIUS - xOffset;
         int r2 = yOffset;
 
+        // Draws the big circle
         for (int x = 0; x < 2 * r1 + 1; x++) {
             for (int y = 0; y < 2 * r1 + 1; y++) {
                 long curr_right = Math.round(Math.sqrt(Math.pow(x + r1, 2) + Math.pow(y + r1, 2)));
@@ -71,12 +72,20 @@ public class maps {
             }
         }
 
-        for (int x = r1; x < 2 * r1; x++) {
-            for (int y = 2 * r1; y > 2 * r1 - 8; y--) {
-                map[x][y] = new DTile();
+        // Draws a rectangular channel
+        for (int y = 2 * r1; y > 2 * r1 - 8; y--) {
+            for (int x = r1; x < 2 * r1; x++) {
+                // Add regular tiles for the overlaps with the big circle
+                if (x < 1.5 * r1){
+                    map[x][y] = new DTile();
+                } else {
+                // Add tracker tiles for the extended region
+                map[x][y] = new DTile("Dendrite");
+                }
             }
         }
 
+        // Draws a small circle
         int initialX = 2 * r1 - 1;
         int finalX = initialX + 2 * r2 + 1;
         int initialY = 2 * r1 - r2 - 4;
@@ -88,7 +97,7 @@ public class maps {
                 long curr_left = Math.round(Math.sqrt(Math.pow(x - initialX - r2, 2) + Math.pow(y - initialY - r2, 2)));
 
                 if (r2 > curr_left && r2 < curr_right) {
-                    map[x][y] = new DTile();
+                    map[x][y] = new DTile("Dendrite");
                 }
             }
         }

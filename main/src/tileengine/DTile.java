@@ -13,21 +13,26 @@ public class DTile extends TETile {
 
     public static final char defaultChar = ' ';
 
+    public String tracker = "";
+
     public DTile() {
         super(defaultChar, Color.black, Color.blue, "", "", 0);
         kinaseCount = 0;
         pptaseCount = 0;
         X = 0.5;  // Start at equilibrium
+        tracker = "";
         upDateTile();
     }
 
-    public DTile(int kCount, int pCount, double x) {
+    public DTile(String name) {
         super(defaultChar, Color.black, Color.blue, "", "", 0);
-        kinaseCount = kCount;
-        pptaseCount = pCount;
-        X = Math.max(0.0, Math.min(1.0, x));  // Clamp on construction
+        kinaseCount = 0;
+        pptaseCount = 0;
+        X = 0.5;  // Start at equilibrium
+        tracker = name;
         upDateTile();
     }
+
 
     /**
      * Updates the tile's visual appearance based on X value.
