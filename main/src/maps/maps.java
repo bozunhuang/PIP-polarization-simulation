@@ -6,8 +6,8 @@ import tileengine.TETile;
 import tileengine.Tileset;
 
 public class maps {
-    private static final int WIDTH = 101;
-    private static final int HEIGHT = 101;
+    public static final int WIDTH = 101;
+    public static final int HEIGHT = 101;
     private static final int RADIUS = 50;
 
     public static final TETile[][] CIRCLE_MAP = generateCircularMap(new TETile[WIDTH][HEIGHT]);

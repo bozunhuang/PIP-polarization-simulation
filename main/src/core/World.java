@@ -3,6 +3,7 @@ package core;
 import tileengine.DTile;
 import tileengine.TETile;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Random;
 
@@ -16,7 +17,6 @@ public class World {
     // World parameters
     private int width;
     private int height;
-    private int radius;
     private double alphaPIP;
     private double alphaEnzyme;
     private double timestep;
@@ -43,13 +43,12 @@ public class World {
     private int[][] updatedKinaseCount;
     private int[][] updatedPhosphataseCount;
 
-    public World(TETile[][] map, int width, int height, int radius, double alphaPIP, double alphaEnzyme,
+    public World(TETile[][] map, int width, int height, double alphaPIP, double alphaEnzyme,
                  double timestep, double patchLength, double k_mkon, double k_koff, double p_mkon, double p_koff,
                  double k_mkcat, double k_mKm, double p_mkcat, double p_mKm) {
         worldGrid = map;
         this.width = width;
         this.height = height;
-        this.radius = radius;
         this.alphaPIP = alphaPIP;
         this.alphaEnzyme = alphaEnzyme;
         this.timestep = timestep;
@@ -64,6 +63,31 @@ public class World {
         this.p_mkcat = p_mkcat;
         this.p_mKm = p_mKm;
         initialize();
+        validateStability();
+    }
+
+    public World(TETile[][] map, int width, int height, double alphaPIP, ArrayList<Double> params) {
+        worldGrid = map;
+        this.width = width;
+        this.height = height;
+        this.alphaPIP = alphaPIP;
+        int initialKinases = (int) Math.round(params.get(0));
+        int initialPhosphatases = (int) Math.round(params.get(1));
+
+        timestep = params.get(2);
+        patchLength = params.get(3);
+        alphaEnzyme = params.get(5);
+
+        k_mkon = params.get(6);
+        k_koff = params.get(7);
+        p_mkon = params.get(8);
+        p_koff = params.get(9);
+        k_mkcat = params.get(10);
+        k_mKm = params.get(11);
+        p_mkcat = params.get(12);
+        p_mKm = params.get(13);
+        initialize();
+        initializeEnzymes(initialKinases, initialPhosphatases);
         validateStability();
     }
 
@@ -448,5 +472,10 @@ public class World {
         return totalDendriteX / tileCount;
     }
 
-    public double polarizationIdx() {return getAvgDendriteX() / (getAvgSystemX() + getAvgDendriteX());}
+    public double polarizationIdx() {
+        if (getAvgDendriteX() < 0.00000001 || getAvgSystemX() < 0.00000001) {
+            return 0.0;
+        }
+        return getAvgDendriteX() / (getAvgSystemX() + getAvgDendriteX());
+    }
 }

@@ -12,7 +12,7 @@ public class Main {
     private static final TETile[][] MAP = NEURITE_MAP;
     private static final int WIDTH = 101;
     private static final int HEIGHT = 101;
-    private static final int RADIUS = (WIDTH - 1) / 2;
+//    private static final int RADIUS = (WIDTH - 1) / 2;
 
     // These should be calculated properly, not set arbitrarily
 //    private static final double TIMESTEP = 0.01;
@@ -31,25 +31,27 @@ public class Main {
     private static final long FRAME_TIME_MS = 1000 / TARGET_FPS;
 
     public static void main(String[] args) {
-        int totalKinases = 500;
-        int totalPhosphatases = 1000;
+        int totalKinases = 493;
+        int totalPhosphatases = 929;
         double timestep = 0.01;
         double patchLength = 0.5;
-        double dPip = 5;
+        double dPip = 1.62;
         double alphaEnzyme = 0.2;
-        double k_mkon = 0.3;      // kinase on-rate
-        double k_koff = 0.5;      // kinase off-rate
-        double p_mkon = 0.05;      // phosphatase on-rate
+        double k_mkon = 0.255;      // kinase on-rate
+        double k_koff = 0.444;      // kinase off-rate
+        double p_mkon = 0.118;      // phosphatase on-rate
         double p_koff = 0.2;      // phosphatase off-rate
-        double k_mkcat = 10.0;     // kinase catalytic rate
-        double k_mKm = 2.0;       // kinase Michaelis constant
+        double k_mkcat = 5.59;     // kinase catalytic rate
+        double k_mKm = 2.27;       // kinase Michaelis constant
         double p_mkcat = 15;     // phosphatase catalytic rate
-        double p_mKm = 0.5;
+        double p_mKm = 0.59;
 
         runGame(totalKinases, totalPhosphatases, timestep, patchLength, dPip, alphaEnzyme, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
     }
 
-    private static void runGame(int initialKinases, int initialPhosphatases, double timestep, double patchLength, double dPIP, double alphaEnzyme, double k_mkon, double k_koff, double p_mkon, double p_koff, double k_mkcat, double k_mKm, double p_mkcat, double p_mKm){
+    private static void runGame(int initialKinases, int initialPhosphatases, double timestep, double patchLength,
+                                double dPIP, double alphaEnzyme, double k_mkon, double k_koff, double p_mkon,
+                                double p_koff, double k_mkcat, double k_mKm, double p_mkcat, double p_mKm){
         double alphaPIP = dPIP * timestep / (patchLength * patchLength);
 
         System.out.println("Initializing stochastic enzyme simulation...");
@@ -60,7 +62,7 @@ public class Main {
             return;
         }
 
-        world = new World(MAP, WIDTH, HEIGHT, RADIUS, alphaPIP, alphaEnzyme, timestep, patchLength, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
+        world = new World(MAP, WIDTH, HEIGHT, alphaPIP, alphaEnzyme, timestep, patchLength, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
         world.initializeEnzymes(initialKinases, initialPhosphatases);
 
         System.out.println("Initial kinases in solution: " + initialKinases);
@@ -73,7 +75,7 @@ public class Main {
         long frameCount = 0;
         long startTime = System.currentTimeMillis();
 
-        while (!terminate(frameCount)){
+        while (frameCount <= 3000){
             long frameStart = System.currentTimeMillis();
 
             world.upDateWorld();
@@ -105,10 +107,10 @@ public class Main {
         System.out.println("Done simulation!");
     }
 
-    private static boolean terminate(double frameCount){
-        if  (frameCount >= 2000){
-            return true;
-        }
-        return world.polarizationIdx() >= 0.8;
-    }
+//    private static boolean terminate(double frameCount){
+//        if  (frameCount >= 2000){
+//            return true;
+//        }
+//        return world.polarizationIdx() >= 0.8;
+//    }
 }
