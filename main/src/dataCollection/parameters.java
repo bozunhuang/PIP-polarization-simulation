@@ -9,7 +9,7 @@ public class parameters {
     static double totalPhosphatases = 1000;
     static double timestep = 0.01;
     static double patchLength = 0.5;
-    static double dPIP = 3;
+    static double dPIP = 4;
     static double alphaEnzyme = 0.2;
     static double k_mkon = 0.3;      // kinase on-rate
     static double k_koff = 0.5;      // kinase off-rate
