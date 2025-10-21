@@ -23,7 +23,7 @@ public class parameters {
     static Random random = new Random(42);
 
     public static void main(String[] args) {
-        System.out.println(String.valueOf(singleVariables(10)));
+        System.out.println(singleVariables(10).get(0));
     }
 
 
@@ -65,35 +65,30 @@ public class parameters {
         paramList.add(p_mkcat);
         paramList.add(p_mKm);
 
-        for (double param : paramList) {
+        for (int i = 0; i < paramList.size(); i++) {
             ArrayList<ArrayList<Double>> set = new ArrayList<>();
-            for (int i = 0; i < steps + 1; i++) {
-                ArrayList<Double> row = new ArrayList<>();
-                double inc = param / (steps * 10);
+            ArrayList<Double> gradient = new ArrayList<>();
+            for (int k = 0; k < steps + 1; k++) {
+                double inc = paramList.get(i) / (steps * 20);
 
                 for (int j = steps / 2; j > 0; j--) {
-                    row.add(param - j * inc);
+                    gradient.add(paramList.get(i) - j * inc);
                 }
 
-                row.add(param);
+                gradient.add(paramList.get(i));
 
                 for (int j = 0; j < steps / 2; j++) {
-                    row.add(param + j * inc);
+                    gradient.add(paramList.get(i) + j * inc);
                 }
-                set.add(row);
+            }
+            for (int j = 0; j < steps + 1; j++) {
+                ArrayList<Double> temp = new ArrayList<>(paramList);
+                temp.set(i, gradient.get(j));
+                set.add(temp);
             }
             parameterSet.add(set);
         }
-
-        for (int j = 0; j < steps + 1; j++) {
-            ArrayList<Double> row = new ArrayList<>();
-            for (int i = 0; i < paramList.size(); i++) {
-                row.add(preset.get(i).get(j));
-            }
-            parameterSet.add(row);
-        }
-
-        if (parameterSet.size() != steps + 1 || parameterSet.get(0).size() != paramList.size() || parameterSet.get(0).isEmpty()) {
+        if (parameterSet.size() != paramList.size()|| parameterSet.getFirst().size() != steps + 1 || parameterSet.getFirst().getFirst().size() != paramList.size()) {
             throw new IllegalArgumentException("Failed building parameterSet");
         }
 

@@ -37,7 +37,7 @@ public class dataCollection {
         // Set parameter set generation mode
         int MODE = ONE_VARIABLE;
 
-        outputFileName = "test_run_var";
+        outputFileName = "test_run_var_1";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -65,12 +65,14 @@ public class dataCollection {
         }
 
         if  (MODE == ONE_VARIABLE) {
-            ArrayList<ArrayList<Double>> paramSet = parameters.singleVariables(10);
+            ArrayList<ArrayList<ArrayList<Double>>> paramSet = parameters.singleVariables(20);
             int i = 1;
-            for (ArrayList<Double> params : paramSet) {
-                System.out.println("Starting run: " + i);
-                runSimulations(params, i);
-                i++;
+            for (ArrayList<ArrayList<Double>> paramSubset : paramSet) {
+                for (ArrayList<Double> params : paramSubset) {
+                    System.out.println("Starting run: " + i);
+                    runSimulations(params, i);
+                    i++;
+                }
             }
         }
 
