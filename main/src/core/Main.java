@@ -6,6 +6,16 @@ import tileengine.TETile;
 import static maps.maps.CIRCLE_MAP;
 import static maps.maps.NEURITE_MAP;
 
+/// This class is used for testing one single-set of variables. Use the dataCollection class for large scale data collection.
+/// Graphic rendering is enabled in this class for demonstration purposes
+/// The variables and constants used in the simulation are:
+/// world: An object that contains every tile. All changes and calculations of the simulation happens within the world.
+/// WIDTH: The width of world in tiles
+/// HEIGHT: The height of world in tiles
+/// totalKinases: The total number of kinase of the system. This is a constant.
+/// totalPhosphatases: The total number of phosphatase of the system. This is a constant..
+///
+
 public class Main {
     private static World world;
 //    private static final TETile[][] MAP = CIRCLE_MAP;
