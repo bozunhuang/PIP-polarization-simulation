@@ -5,8 +5,8 @@ import java.util.Random;
 
 public class parameters {
     // Reference parameters
-    static double totalKinases = 500;
-    static double totalPhosphatases = 1000;
+    static double totalKinases = 100;
+    static double totalPhosphatases = 100;
     static double timestep = 0.01;
     static double patchLength = 0.5;
     static double dPIP = 4;
@@ -29,20 +29,20 @@ public class parameters {
 
     public static ArrayList<Double> getPerimeters() {
         ArrayList<Double> parameterSet = new ArrayList<>();
-        parameterSet.add(totalKinases + random.nextDouble(-totalKinases / 5, totalKinases / 10));
-        parameterSet.add(totalPhosphatases + random.nextDouble(-totalPhosphatases / 5, totalPhosphatases / 10));
+        parameterSet.add(random.nextDouble( 10, totalKinases * 10));
+        parameterSet.add(random.nextDouble(10, totalPhosphatases * 10));
         parameterSet.add(timestep);
         parameterSet.add(patchLength);
         parameterSet.add(dPIP + random.nextDouble(-1, 1));
-        parameterSet.add(alphaEnzyme + random.nextDouble(-0.05, 0.05));
-        parameterSet.add(k_mkon + random.nextDouble(-0.1, 0.1));
-        parameterSet.add(k_koff + random.nextDouble(-0.1, 0.1));
-        parameterSet.add(p_mkon + random.nextDouble(-0.01, 0.01));
-        parameterSet.add(p_koff + random.nextDouble(-0.1, 0.1));
-        parameterSet.add(k_mkcat + random.nextDouble(-3, 3));
-        parameterSet.add(k_mKm + random.nextDouble(-0.2, 2.0));
-        parameterSet.add(p_mkcat + random.nextDouble(-3, 3));
-        parameterSet.add(p_mKm + random.nextDouble(-0.1, 0.1));
+        parameterSet.add(random.nextDouble(alphaEnzyme / 10, alphaEnzyme * 10));
+        parameterSet.add(random.nextDouble(k_mkon / 10, k_mkon * 10));
+        parameterSet.add(random.nextDouble(k_koff / 10, k_koff * 10));
+        parameterSet.add(random.nextDouble(p_mkon / 10, p_mkon * 10));
+        parameterSet.add(random.nextDouble(p_koff / 10, p_koff * 10));
+        parameterSet.add(random.nextDouble(k_mkcat / 10, k_mkcat * 10));
+        parameterSet.add(random.nextDouble(k_mKm / 10, k_mKm * 10));
+        parameterSet.add(random.nextDouble(p_mkcat / 10, p_mkcat * 10));
+        parameterSet.add(random.nextDouble(p_mKm / 10, p_mKm * 10));
         return parameterSet;
     }
 

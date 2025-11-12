@@ -224,7 +224,8 @@ public class World {
                         tile.k_Pon *= (double) kinasesInSolution / totalKinases;
 
                         if (tile.k_Pon > 1.0) {
-                            System.err.println("WARNING: k_Pon = " + tile.k_Pon + " > 1 at (" + x + "," + y + ")");
+                            System.err.println("WARNING: k_Pon = " + tile.k_Pon + " > 1 at (" + x + "," + y + ")" + " " + k_mkon + " " +
+                                    tile.X + " " + patchArea + " " + timestep + " " + kinasesInSolution + " " + totalKinases);
                         }
 
                         // Stochastic binding event

@@ -21,7 +21,7 @@ public class dataCollection {
     private static final int HEIGHT = 101;
 
     // Number of runs
-    private static final int TOTAL_RUNS = 5000;
+    private static final int TOTAL_RUNS = 1000;
     // Parameter set generation mode
     private static final int PERIMETERS = 0;
     private static final int ONE_VARIABLE = 1;
@@ -37,7 +37,7 @@ public class dataCollection {
         // Set parameter set generation mode
         int MODE = PERIMETERS;
 
-        outputFileName = "rand_run_5000_1";
+        outputFileName = "rand_run_1000_1";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
