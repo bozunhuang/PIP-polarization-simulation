@@ -21,7 +21,7 @@ public class dataCollection {
     private static final int HEIGHT = 101;
 
     // Number of runs
-    private static final int TOTAL_RUNS = 1000;
+    private static final int TOTAL_RUNS = 500;
     // Parameter set generation mode
     private static final int PERIMETERS = 0;
     private static final int ONE_VARIABLE = 1;
@@ -37,7 +37,7 @@ public class dataCollection {
         // Set parameter set generation mode
         int MODE = PERIMETERS;
 
-        outputFileName = "rand_run_1000_1";
+        outputFileName = "4_lobe_test_1000runs_2";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -111,7 +111,7 @@ public class dataCollection {
         System.out.println("Done simulation " + runNumber + "!");
 
         // Save data
-        String[] row = new String[params.size() + 5];
+        String[] row = new String[params.size() + 8];
         int i = 0;
 
         for (Double param : params) {
@@ -122,8 +122,11 @@ public class dataCollection {
         row[i] = String.valueOf(world.getKinasesInSolution());
         row[i + 1] = String.valueOf(world.getPhosphatasesInSolution());
         row[i + 2] = String.valueOf(world.getAvgSystemX());
-        row[i + 3] = String.valueOf(world.getAvgDendriteX());
-        row[i + 4] = String.valueOf(world.polarizationIdx());
+        row[i + 3] = String.valueOf(world.getAvgSingleDendriteX(1));
+        row[i + 4] = String.valueOf(world.getAvgSingleDendriteX(2));
+        row[i + 5] = String.valueOf(world.getAvgSingleDendriteX(3));
+        row[i + 6] = String.valueOf(world.getAvgSingleDendriteX(4));
+        row[i + 7] = String.valueOf(world.getAvgAllDendriteX());
         data.add(row);
     }
 
@@ -131,8 +134,9 @@ public class dataCollection {
         String csvFilePath = "data/" + outputFileName + ".csv";
         String[] header = {"Total Kinase", "Total Phosphatase", "Timestep", "Patch Length", "dPIP",
                             "alphaEnzyme", "k_mkon", "k_koff", "p_mkon", "p_koff", "k_mkcat", "k_mKm",
-                            "p_mkcat", "p_mKm", "Kinase in solution", "Phosphatase in solution",
-                            "Average system X", "Average dendrite X", "Polarization index"};
+                            "p_mkcat", "p_mKm", "Kinase in Solution", "Phosphatase in Solution",
+                            "Average System X", "Average Dendrite 1 X","Average Dendrite 2 X",
+                            "Average Dendrite 3 X","Average Dendrite 4 X","Average All Dendrites X"};
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath))) {
             writer.writeNext(header); // Write the header row

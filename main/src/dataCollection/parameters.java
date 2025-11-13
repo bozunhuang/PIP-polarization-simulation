@@ -11,7 +11,7 @@ public class parameters {
     static double patchLength = 0.5;
     static double dPIP = 4;
     static double alphaEnzyme = 0.2;
-    static double k_mkon = 0.3;      // kinase on-rate
+    static double k_mkon = 0.1;      // kinase on-rate
     static double k_koff = 0.5;      // kinase off-rate
     static double p_mkon = 0.05;      // phosphatase on-rate
     static double p_koff = 0.2;      // phosphatase off-rate
@@ -34,15 +34,15 @@ public class parameters {
         parameterSet.add(timestep);
         parameterSet.add(patchLength);
         parameterSet.add(dPIP + random.nextDouble(-1, 1));
-        parameterSet.add(random.nextDouble(alphaEnzyme / 10, alphaEnzyme * 10));
-        parameterSet.add(random.nextDouble(k_mkon / 10, k_mkon * 10));
-        parameterSet.add(random.nextDouble(k_koff / 10, k_koff * 10));
-        parameterSet.add(random.nextDouble(p_mkon / 10, p_mkon * 10));
-        parameterSet.add(random.nextDouble(p_koff / 10, p_koff * 10));
-        parameterSet.add(random.nextDouble(k_mkcat / 10, k_mkcat * 10));
-        parameterSet.add(random.nextDouble(k_mKm / 10, k_mKm * 10));
-        parameterSet.add(random.nextDouble(p_mkcat / 10, p_mkcat * 10));
-        parameterSet.add(random.nextDouble(p_mKm / 10, p_mKm * 10));
+        parameterSet.add(random.nextDouble(alphaEnzyme / 2, alphaEnzyme * 2));
+        parameterSet.add(random.nextDouble(k_mkon / 2, k_mkon * 2));
+        parameterSet.add(random.nextDouble(k_koff / 2, k_koff * 2));
+        parameterSet.add(random.nextDouble(p_mkon / 2, p_mkon * 2));
+        parameterSet.add(random.nextDouble(p_koff / 2, p_koff * 2));
+        parameterSet.add(random.nextDouble(k_mkcat / 2, k_mkcat * 2));
+        parameterSet.add(random.nextDouble(k_mKm / 2, k_mKm * 2));
+        parameterSet.add(random.nextDouble(p_mkcat / 2, p_mkcat * 2));
+        parameterSet.add(random.nextDouble(p_mKm / 2, p_mKm * 2));
         return parameterSet;
     }
 

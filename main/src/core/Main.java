@@ -41,20 +41,20 @@ public class Main {
     private static final long FRAME_TIME_MS = 1000 / TARGET_FPS;
 
     public static void main(String[] args) {
-        int totalKinases = 493;
-        int totalPhosphatases = 929;
+        int totalKinases = 200;
+        int totalPhosphatases = 50;
         double timestep = 0.01;
         double patchLength = 0.5;
-        double dPip = 1.62;
+        double dPip = 2.0;
         double alphaEnzyme = 0.2;
-        double k_mkon = 0.255;      // kinase on-rate
-        double k_koff = 0.444;      // kinase off-rate
-        double p_mkon = 0.118;      // phosphatase on-rate
+        double k_mkon = 0.1;      // kinase on-rate
+        double k_koff = 0.5;      // kinase off-rate
+        double p_mkon = 0.5;      // phosphatase on-rate
         double p_koff = 0.2;      // phosphatase off-rate
-        double k_mkcat = 5.59;     // kinase catalytic rate
-        double k_mKm = 2.27;       // kinase Michaelis constant
+        double k_mkcat = 10.0;     // kinase catalytic rate
+        double k_mKm = 0.5;       // kinase Michaelis constant
         double p_mkcat = 15;     // phosphatase catalytic rate
-        double p_mKm = 0.59;
+        double p_mKm = 0.5;
 
         runGame(totalKinases, totalPhosphatases, timestep, patchLength, dPip, alphaEnzyme, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
     }
@@ -85,7 +85,7 @@ public class Main {
         long frameCount = 0;
         long startTime = System.currentTimeMillis();
 
-        while (frameCount <= 3000){
+        while (frameCount <= 200000){
             long frameStart = System.currentTimeMillis();
 
             world.upDateWorld();
@@ -97,14 +97,14 @@ public class Main {
             frameCount++;
 
             // Print status every 100 frames
-            if (frameCount % 100 == 0) {
-                long elapsed = System.currentTimeMillis() - startTime;
-                double fps = frameCount * 1000.0 / elapsed;
-                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d%nSystem AvgX: %.2f | Dendrite AvgX: %.2f | Polarization index: %f\n",
-                        frameCount, fps,
-                        world.getKinasesInSolution(), world.getTotalKinases(), world.getPhosphatasesInSolution(), world.getTotalPhosphatases(),
-                        world.getAvgSystemX(), world.getAvgDendriteX(), world.polarizationIdx());
-            }
+//            if (frameCount % 100 == 0) {
+//                long elapsed = System.currentTimeMillis() - startTime;
+//                double fps = frameCount * 1000.0 / elapsed;
+//                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d%nSystem AvgX: %.2f | Dendrite AvgX: %.2f | Polarization index: %f\n",
+//                        frameCount, fps,
+//                        world.getKinasesInSolution(), world.getTotalKinases(), world.getPhosphatasesInSolution(), world.getTotalPhosphatases(),
+//                        world.getAvgSystemX(), world.getAvgDendriteX(), world.polarizationIdx());
+//            }
 
             // Frame rate limiting
 //            long frameTime = System.currentTimeMillis() - frameStart;
