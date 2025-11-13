@@ -16,7 +16,7 @@ public class DTile extends TETile {
     public int tracker = 0;
 
     public DTile() {
-        super(defaultChar, Color.black, Color.blue, "", "", 0);
+        super(defaultChar, Color.black, Color.blue, 0);
         upDateTile();
     }
 
@@ -34,10 +34,7 @@ public class DTile extends TETile {
     }
 
     public DTile(int tracker) {
-        super(defaultChar, Color.black, Color.blue, "", "", 0);
-        kinaseCount = 0;
-        pptaseCount = 0;
-        X = 0.5;  // Start at equilibrium
+        super('#', new Color(((tracker == 1) ? 255 : 0),((tracker == 2) ? 255 : 0),((tracker == 3) ? 255 : 0)), Color.blue, 0);
         this.tracker = tracker;
         upDateTile();
     }

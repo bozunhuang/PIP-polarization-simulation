@@ -89,13 +89,15 @@ public class Main {
             long frameStart = System.currentTimeMillis();
 
             world.upDateWorld();
-            renderer.renderFrame(world.worldGrid);
+//            renderer.renderFrame(world.worldGrid);
+            if (frameCount % 10 == 0) {
+                renderer.renderFrame(world.worldGrid);
+            }
 
             frameCount++;
 
             // Print status every 100 frames
             if (frameCount % 100 == 0) {
-                renderer.renderFrame(world.worldGrid);
                 long elapsed = System.currentTimeMillis() - startTime;
                 double fps = frameCount * 1000.0 / elapsed;
                 System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d%nSystem AvgX: %.2f | Dendrite AvgX: %.2f | Polarization index: %f\n",
@@ -114,7 +116,7 @@ public class Main {
 //                }
 //            }
         }
-        System.out.println("Done simulation!");
+        System.out.println("Completed simulation!");
     }
 
 //    private static boolean terminate(double frameCount){

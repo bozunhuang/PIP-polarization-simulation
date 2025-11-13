@@ -17,8 +17,8 @@ import java.awt.*;
  */
 
 public class Tileset {
-    public static final TETile NOTHING = new TETile(' ', Color.black, Color.black, "nothing", 1);
-    public static final TETile WALL = new TETile(' ', Color.pink, Color.pink, "wall", 2);
+    public static final TETile NOTHING = new TETile(' ', Color.black, Color.black, 1);
+    public static final TETile WALL = new TETile(' ', Color.pink, Color.pink, 2);
 }
 
 

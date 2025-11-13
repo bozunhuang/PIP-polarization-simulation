@@ -5,7 +5,6 @@ import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.*;
 import java.util.Arrays;
-import java.util.Random;
 
 /**
  * The TETile object is used to represent a single tile in your world. A 2D array of tiles make up a
@@ -22,11 +21,9 @@ import java.util.Random;
  */
 
 public class TETile {
-    public char character; // Do not rename character or the autograder will break.
+    public char character;
     private final Color textColor;
     public Color backgroundColor;
-    private final String description;
-    private final String filepath;
     private final int id;
 
     /**
@@ -34,33 +31,11 @@ public class TETile {
      * @param character The character displayed on the screen.
      * @param textColor The color of the character itself.
      * @param backgroundColor The color drawn behind the character.
-     * @param description The description of the tile, shown in the GUI on hovering over the tile.
-     * @param filepath Full path to image to be used for this tile. Must be correct size (16x16)
      */
-    public TETile(char character, Color textColor, Color backgroundColor, String description,
-                  String filepath, int id) {
+    public TETile(char character, Color textColor, Color backgroundColor, int id) {
         this.character = character;
         this.textColor = textColor;
         this.backgroundColor = backgroundColor;
-        this.description = description;
-        this.filepath = filepath;
-        this.id = id;
-    }
-
-    /**
-     * Constructor without filepath. In this case, filepath will be null, so when drawing, we
-     * will not even try to draw an image, and will instead use the provided character and colors.
-     * @param character The character displayed on the screen.
-     * @param textColor The color of the character itself.
-     * @param backgroundColor The color drawn behind the character.
-     * @param description The description of the tile, shown in the GUI on hovering over the tile.
-     */
-    public TETile(char character, Color textColor, Color backgroundColor, String description, int id) {
-        this.character = character;
-        this.textColor = textColor;
-        this.backgroundColor = backgroundColor;
-        this.description = description;
-        this.filepath = null;
         this.id = id;
     }
 
@@ -69,7 +44,7 @@ public class TETile {
      * @param t tile to copy
      */
     public TETile(TETile t) {
-        this(t.character, t.textColor, t.backgroundColor, t.description, t.filepath, t.id);
+        this(t.character, t.textColor, t.backgroundColor, t.id);
     }
 
     /**
@@ -78,7 +53,7 @@ public class TETile {
      * @param textColor foreground color for tile copy
      */
     public TETile(TETile t, Color textColor) {
-        this(t.character, textColor, t.backgroundColor, t.description, t.filepath, t.id);
+        this(t.character, textColor, t.backgroundColor, t.id);
     }
 
     /**
@@ -87,7 +62,7 @@ public class TETile {
      * @param c character for tile copy
      */
     public TETile(TETile t, char c) {
-        this(c, t.textColor, t.backgroundColor, t.description, t.filepath, t.id);
+        this(c, t.textColor, t.backgroundColor, t.id);
     }
 
 
@@ -102,16 +77,6 @@ public class TETile {
      * @param y y coordinate
      */
     public void draw(double x, double y) {
-        if (filepath != null) {
-            try {
-                StdDraw.picture(x + 0.5, y + 0.5, filepath);
-                return;
-            } catch (IllegalArgumentException e) {
-                // Exception happens because the file can't be found. In this case, fail silently
-                // and just use the character and background color for the tile.
-            }
-        }
-
         StdDraw.setPenColor(backgroundColor);
         StdDraw.filledSquare(x + 0.5, y + 0.5, 0.5);
         StdDraw.setPenColor(textColor);
@@ -130,9 +95,6 @@ public class TETile {
      * testing that two tiles represent the same type of thing.
      * @return description of the tile
      */
-    public String description() {
-        return description;
-    }
 
     /**
      * ID number of the tile. Used for equality comparisons.
