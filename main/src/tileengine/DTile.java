@@ -5,7 +5,7 @@ import java.awt.*;
 public class DTile extends TETile {
     public int kinaseCount = 0;
     public int pptaseCount = 0;
-    public double X = 0.0;  // Fraction of PIP2 (0 = all PIP1, 1 = all PIP2)
+    public double X = 0.5;  // Fraction of PIP2 (0 = all PIP1, 1 = all PIP2)
 
     // Binding probabilities (patch-owned variables, like in NetLogo)
     public double k_Pon = 0.0;  // Probability of kinase binding to this patch
@@ -13,23 +13,32 @@ public class DTile extends TETile {
 
     public static final char defaultChar = ' ';
 
-    public String tracker = "";
+    public int tracker = 0;
 
     public DTile() {
         super(defaultChar, Color.black, Color.blue, "", "", 0);
-        kinaseCount = 0;
-        pptaseCount = 0;
-        X = 0.5;  // Start at equilibrium
-        tracker = "";
         upDateTile();
     }
 
-    public DTile(String name) {
+    /**
+     * Creates a copy of DTile t.
+     * @param t tile to copy
+     */
+    public DTile(DTile t) {
+        super(t);
+        kinaseCount = t.kinaseCount;
+        pptaseCount = t.pptaseCount;
+        X = t.X;
+        tracker = t.tracker;
+        upDateTile();
+    }
+
+    public DTile(int tracker) {
         super(defaultChar, Color.black, Color.blue, "", "", 0);
         kinaseCount = 0;
         pptaseCount = 0;
         X = 0.5;  // Start at equilibrium
-        tracker = name;
+        this.tracker = tracker;
         upDateTile();
     }
 

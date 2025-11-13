@@ -55,49 +55,64 @@ public class maps {
     }
 
     public static void addNeuriteFloor(TETile[][] map) {
-        int xOffset = 10;
-        int yOffset = 10;
-        int r1 = RADIUS - xOffset;
-        int r2 = yOffset;
+        int r2 = 6;
+        int center = WIDTH / 2;
+        int r1 = RADIUS - r2;
+        int smallCenter = WIDTH - r2 - 2;
 
         // Draws the big circle
-        for (int x = 0; x < 2 * r1 + 1; x++) {
-            for (int y = 0; y < 2 * r1 + 1; y++) {
-                long curr_right = Math.round(Math.sqrt(Math.pow(x + r1, 2) + Math.pow(y + r1, 2)));
-                long curr_left = Math.round(Math.sqrt(Math.pow(x - r1, 2) + Math.pow(y - r1, 2)));
+        for (int x = 0; x < WIDTH; x++) {
+            for (int y = 0; y < HEIGHT; y++) {
+                long dist = Math.round(Math.sqrt(Math.pow(x - center, 2) + Math.pow(y - center, 2)));
 
-                if (r1 > curr_left && r1 < curr_right) {
+                if (dist < r1) {
                     map[x][y] = new DTile();
                 }
             }
         }
 
-        // Draws a rectangular channel
-        for (int y = 2 * r1; y > 2 * r1 - 8; y--) {
-            for (int x = r1; x < 2 * r1; x++) {
-                // Add regular tiles for the overlaps with the big circle
-                if (x < 1.5 * r1){
-                    map[x][y] = new DTile();
-                } else {
-                // Add tracker tiles for the extended region
-                map[x][y] = new DTile("Dendrite");
+        // Draws the lobes
+        for (int i = 1; i <= 4; i++) {
+            // Draws a rectangular channel
+            for (int y = center + r1; y > center + r1 - 4; y--) {
+                for (int x = center; x < center + r1; x++) {
+                    // Add regular tiles for the overlaps with the big circle
+                    if (x < 1.5 * r1){
+                        map[x][y] = new DTile();
+                    } else {
+                        // Add tracker tiles for the extended region
+                        map[x][y] = new DTile(i);
+                    }
                 }
             }
-        }
 
-        // Draws a small circle
-        int initialX = 2 * r1 - 1;
-        int finalX = initialX + 2 * r2 + 1;
-        int initialY = 2 * r1 - r2 - 4;
-        int finalY = initialY + 2 * r2 + 1;
+            // Draws a small circle
+            for (int x = 0; x < WIDTH; x++) {
+                for (int y = 0; y < HEIGHT; y++) {
+                    long dist = Math.round(Math.sqrt(Math.pow(x - smallCenter, 2) + Math.pow(y - smallCenter, 2)));
 
-        for (int x = initialX; x < finalX; x++) {
-            for (int y = initialY; y < finalY; y++) {
-                long curr_right = Math.round(Math.sqrt(Math.pow(x - initialX + r2, 2) + Math.pow(y - initialY + r2, 2)));
-                long curr_left = Math.round(Math.sqrt(Math.pow(x - initialX - r2, 2) + Math.pow(y - initialY - r2, 2)));
+                    if (dist < r2) {
+                        map[x][y] = new DTile(i);
+                    }
+                }
+            }
 
-                if (r2 > curr_left && r2 < curr_right) {
-                    map[x][y] = new DTile("Dendrite");
+            // Rotates map
+            TETile[][] map2 = new TETile[WIDTH][HEIGHT];
+
+            for (int x = 0; x < WIDTH; x++) {
+                for (int y = 0; y < HEIGHT; y++) {
+                    map2[x][y] = map[2 * center - y][x];
+                }
+            }
+
+            for (int x = 0; x < WIDTH; x++) {
+                for (int y = 0; y < HEIGHT; y++) {
+                    if (map2[x][y] instanceof DTile) {
+                        map[x][y] = new DTile((DTile) map2[x][y]);
+                    } else {
+                        map[x][y] = Tileset.NOTHING;
+                    }
                 }
             }
         }

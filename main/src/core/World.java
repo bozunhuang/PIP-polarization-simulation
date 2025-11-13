@@ -450,7 +450,7 @@ public class World {
         int tileCount = 0;
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                if (worldGrid[x][y] instanceof DTile && Objects.equals(((DTile) worldGrid[x][y]).tracker, "")) {
+                if (worldGrid[x][y] instanceof DTile && ((DTile) worldGrid[x][y]).tracker == 0) {
                     totalSystemX += ((DTile) worldGrid[x][y]).X;
                     tileCount++;
                 }
@@ -464,7 +464,7 @@ public class World {
         int tileCount = 0;
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                if (worldGrid[x][y] instanceof DTile && Objects.equals(((DTile) worldGrid[x][y]).tracker, "Dendrite")) {
+                if (worldGrid[x][y] instanceof DTile && ((DTile) worldGrid[x][y]).tracker > 0) {
                     totalDendriteX += ((DTile) worldGrid[x][y]).X;
                     tileCount++;
                 }
