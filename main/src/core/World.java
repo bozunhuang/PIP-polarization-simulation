@@ -259,17 +259,12 @@ public class World {
         // Use temporary arrays to avoid conflicts
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                updatedKinaseCount[x][y] = 0;
-                updatedPhosphataseCount[x][y] = 0;
-            }
-        }
-
-        // Copy current counts
-        for (int x = 0; x < width; x++){
-            for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
                     updatedKinaseCount[x][y] = tile.kinaseCount;
                     updatedPhosphataseCount[x][y] = tile.pptaseCount;
+                } else {
+                    updatedKinaseCount[x][y] = 0;
+                    updatedPhosphataseCount[x][y] = 0;
                 }
             }
         }
@@ -350,11 +345,9 @@ public class World {
     private void diffusePIP() {
         // FTCS scheme: x_new = x(1 - 4α·n/4) + Σ(neighbors)·α
         // Must use temporary array to avoid in-place updates
-
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
-
                     // Count valid neighbors and sum their X values
                     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
                     int neighborCount = 0;
@@ -364,16 +357,15 @@ public class World {
                         int nx = x + dir[0];
                         int ny = y + dir[1];
                         if (nx >= 0 && nx < width && ny >= 0 && ny < height
-                                && worldGrid[nx][ny] instanceof DTile) {
+                                && worldGrid[nx][ny] instanceof DTile neighbor) {
                             neighborCount++;
-                            neighborSum += ((DTile) worldGrid[nx][ny]).X;
+                            neighborSum += neighbor.X;
                         }
                     }
 
                     // FTCS update formula
                     double newX = tile.X * (1.0 - 4.0 * alphaPIP * (neighborCount / 4.0))
                             + neighborSum * alphaPIP;
-
                     updatedX[x][y] = Math.max(0.0, Math.min(1.0, newX));
                 } else {
                     updatedX[x][y] = 0;

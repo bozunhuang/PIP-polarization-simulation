@@ -7,8 +7,8 @@ import tileengine.Tileset;
 
 public class maps {
     public static final int WIDTH = 101;
-    public static final int HEIGHT = 101;
-    private static final int RADIUS = 50;
+    public static final int HEIGHT = WIDTH;
+    private static final int RADIUS = WIDTH / 2;
 
 //    public static final TETile[][] CIRCLE_MAP = generateCircularMap(new TETile[WIDTH][HEIGHT]);
     public static final TETile[][] NEURITE_MAP = generateNeuriteMap(new TETile[WIDTH][HEIGHT]);

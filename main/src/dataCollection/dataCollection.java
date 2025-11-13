@@ -108,7 +108,7 @@ public class dataCollection {
             frameCount++;
         }
 
-        System.out.println("Done simulation " + runNumber + "!");
+        System.out.println("Completed simulation " + runNumber + "!");
 
         // Save data
         String[] row = new String[params.size() + 5];

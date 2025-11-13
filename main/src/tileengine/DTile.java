@@ -34,7 +34,7 @@ public class DTile extends TETile {
     }
 
     public DTile(int tracker) {
-        super('#', new Color(((tracker == 1) ? 255 : 0),((tracker == 2) ? 255 : 0),((tracker == 3) ? 255 : 0)), Color.blue, 0);
+        super('/', Color.black, Color.blue, 0);
         this.tracker = tracker;
         upDateTile();
     }
@@ -70,17 +70,17 @@ public class DTile extends TETile {
 
         // Optional: Display enzyme information as character
         // Uncomment if you want to see enzyme distribution
-        /*
-        if (kinaseCount > 0 && pptaseCount > 0) {
-            character = 'B';  // Both
-        } else if (kinaseCount > 0) {
-            character = 'K';
-        } else if (pptaseCount > 0) {
-            character = 'P';
-        } else {
-            character = ' ';
-        }
-        */
+
+//        if (kinaseCount > 0 && pptaseCount > 0) {
+//            character = 'B';  // Both
+//        } else if (kinaseCount > 0) {
+//            character = 'K';
+//        } else if (pptaseCount > 0) {
+//            character = 'P';
+//        } else {
+//            character = ' ';
+//        }
+
     }
 
     /**

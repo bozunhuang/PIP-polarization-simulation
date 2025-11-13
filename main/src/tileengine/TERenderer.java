@@ -110,7 +110,7 @@ public class TERenderer {
      * if you changed the pen settings.
      */
     public void resetFont() {
-        Font font = new Font("Monaco", Font.BOLD, TILE_SIZE - 2);
+        Font font = new Font(Font.DIALOG, Font.PLAIN, TILE_SIZE);
         StdDraw.setFont(font);
     }
 }
