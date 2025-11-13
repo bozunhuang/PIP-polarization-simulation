@@ -406,7 +406,21 @@ public class World {
         return totalSystemX / tileCount;
     }
 
-    public double getAvgDendriteX() {
+    public double getAvgSingleDendriteX(int i) {
+        double totalDendriteX = 0;
+        int tileCount = 0;
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
+                if (worldGrid[x][y] instanceof DTile && ((DTile) worldGrid[x][y]).tracker == i) {
+                    totalDendriteX += ((DTile) worldGrid[x][y]).X;
+                    tileCount++;
+                }
+            }
+        }
+        return totalDendriteX / tileCount;
+    }
+
+    public double getAvgAllDendriteX() {
         double totalDendriteX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
@@ -420,10 +434,10 @@ public class World {
         return totalDendriteX / tileCount;
     }
 
-    public double polarizationIdx() {
-        if (getAvgDendriteX() < 0.00000001 || getAvgSystemX() < 0.00000001) {
-            return 0.0;
-        }
-        return getAvgDendriteX() / (getAvgSystemX() + getAvgDendriteX());
-    }
+//    public double polarizationIdx(double dendriteX) {
+//        if (dendriteX< 0.00000001 || getAvgSystemX() < 0.00000001) {
+//            return 0.0;
+//        }
+//        return dendriteX/ (getAvgSystemX() + dendriteX);
+//    }
 }
