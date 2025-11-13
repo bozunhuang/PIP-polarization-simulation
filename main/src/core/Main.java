@@ -3,7 +3,7 @@ package core;
 import tileengine.TERenderer;
 import tileengine.TETile;
 
-import static maps.maps.CIRCLE_MAP;
+//import static maps.maps.CIRCLE_MAP;
 import static maps.maps.NEURITE_MAP;
 
 /// This class is used for testing one single-set of variables. Use the dataCollection class for large scale data collection.
