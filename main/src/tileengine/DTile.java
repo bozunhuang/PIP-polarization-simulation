@@ -71,15 +71,15 @@ public class DTile extends TETile {
         // Optional: Display enzyme information as character
         // Uncomment if you want to see enzyme distribution
 
-//        if (kinaseCount > 0 && pptaseCount > 0) {
-//            character = 'B';  // Both
-//        } else if (kinaseCount > 0) {
-//            character = 'K';
-//        } else if (pptaseCount > 0) {
-//            character = 'P';
-//        } else {
-//            character = ' ';
-//        }
+        if (kinaseCount > 0 && pptaseCount > 0) {
+            character = 'B';  // Both
+        } else if (kinaseCount > 0) {
+            character = 'K';
+        } else if (pptaseCount > 0) {
+            character = 'P';
+        } else {
+            character = ' ';
+        }
 
     }
 

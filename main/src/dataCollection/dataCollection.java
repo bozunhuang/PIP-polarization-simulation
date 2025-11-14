@@ -1,7 +1,6 @@
 package dataCollection;
 
 import core.World;
-import tileengine.TERenderer;
 import tileengine.TETile;
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
@@ -25,6 +24,7 @@ public class dataCollection {
     // Parameter set generation mode
     private static final int PERIMETERS = 0;
     private static final int ONE_VARIABLE = 1;
+    private static final int FIXED = 2;
 
 //    public static List<String[]> data = new ArrayList<>();
     public static List<String[]> data = Collections.synchronizedList(new ArrayList<>());
@@ -121,12 +121,12 @@ public class dataCollection {
 
         row[i] = String.valueOf(world.getKinasesInSolution());
         row[i + 1] = String.valueOf(world.getPhosphatasesInSolution());
-        row[i + 2] = String.valueOf(world.getAvgSystemX());
-        row[i + 3] = String.valueOf(world.getAvgSingleDendriteX(1));
-        row[i + 4] = String.valueOf(world.getAvgSingleDendriteX(2));
-        row[i + 5] = String.valueOf(world.getAvgSingleDendriteX(3));
-        row[i + 6] = String.valueOf(world.getAvgSingleDendriteX(4));
-        row[i + 7] = String.valueOf(world.getAvgAllDendriteX());
+        row[i + 2] = String.valueOf(world.getAvgBodyX());
+        row[i + 3] = String.valueOf(world.getAvgOneNodeX(1));
+        row[i + 4] = String.valueOf(world.getAvgOneNodeX(2));
+        row[i + 5] = String.valueOf(world.getAvgOneNodeX(3));
+        row[i + 6] = String.valueOf(world.getAvgOneNodeX(4));
+        row[i + 7] = String.valueOf(world.getAvgAllNodeX());
         data.add(row);
     }
 

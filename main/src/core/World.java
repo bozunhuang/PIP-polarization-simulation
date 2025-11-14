@@ -4,12 +4,11 @@ import tileengine.DTile;
 import tileengine.TETile;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 public class World {
     // Random seed
-    private final Random random = new Random(42);
+    private final Random random = new Random();
 
     // World data
     public TETile[][] worldGrid;
@@ -392,7 +391,7 @@ public class World {
 
     public int getTotalPhosphatases() {return totalPhosphatases;}
 
-    public double getAvgSystemX() {
+    public double getAvgBodyX() {
         double totalSystemX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
@@ -406,7 +405,7 @@ public class World {
         return totalSystemX / tileCount;
     }
 
-    public double getAvgSingleDendriteX(int i) {
+    public double getAvgOneNodeX(int i) {
         double totalDendriteX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
@@ -420,7 +419,7 @@ public class World {
         return totalDendriteX / tileCount;
     }
 
-    public double getAvgAllDendriteX() {
+    public double getAvgAllNodeX() {
         double totalDendriteX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
@@ -434,10 +433,16 @@ public class World {
         return totalDendriteX / tileCount;
     }
 
-//    public double polarizationIdx(double dendriteX) {
-//        if (dendriteX< 0.00000001 || getAvgSystemX() < 0.00000001) {
-//            return 0.0;
-//        }
-//        return dendriteX/ (getAvgSystemX() + dendriteX);
-//    }
+    public double[] polarizationIdx() {
+        double[] nodes = new double[5];
+        for (int i = 1; i <= 4; i++){
+            if (getAvgOneNodeX(i) < 0.00000001 || getAvgBodyX() < 0.00000001) {
+                nodes[i] = 0.0;
+            } else {
+                nodes[i] = getAvgOneNodeX(i) / getAvgBodyX();
+            }
+        }
+        nodes[0] = getAvgAllNodeX() / getAvgBodyX();
+        return nodes;
+    }
 }

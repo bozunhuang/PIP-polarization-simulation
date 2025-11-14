@@ -20,7 +20,7 @@ public class parameters {
     static double p_mkcat = 15;     // phosphatase catalytic rate
     static double p_mKm = 0.5;
 
-    static Random random = new Random(42);
+    static Random random = new Random();
 
     public static void main(String[] args) {
         System.out.println(singleVariables(10).get(0));
@@ -93,5 +93,25 @@ public class parameters {
         }
 
         return parameterSet;
+    }
+    public static ArrayList<Double> fixedVariables() {
+        ArrayList<Double> paramList = new ArrayList<>();
+
+        paramList.add(totalKinases);
+        paramList.add(totalPhosphatases);
+        paramList.add(timestep);
+        paramList.add(patchLength);
+        paramList.add(dPIP);
+        paramList.add(alphaEnzyme);
+        paramList.add(k_mkon);
+        paramList.add(k_koff);
+        paramList.add(p_mkon);
+        paramList.add(p_koff);
+        paramList.add(k_mkcat);
+        paramList.add(k_mKm);
+        paramList.add(p_mkcat);
+        paramList.add(p_mKm);
+
+        return paramList;
     }
 }

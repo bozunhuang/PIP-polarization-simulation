@@ -5,6 +5,8 @@ import tileengine.TERenderer;
 import tileengine.TETile;
 
 //import static maps.maps.CIRCLE_MAP;
+import java.util.Arrays;
+
 import static maps.maps.NEURITE_MAP;
 
 /// This class is used for testing one single-set of variables. Use the dataCollection class for large scale data collection.
@@ -42,8 +44,8 @@ public class Main {
     private static final long FRAME_TIME_MS = 1000 / TARGET_FPS;
 
     public static void main(String[] args) {
-        int totalKinases = 493;
-        int totalPhosphatases = 929;
+        int totalKinases = 193;
+        int totalPhosphatases = 129;
         double timestep = 0.01;
         double patchLength = 0.5;
         double dPip = 1.62;
@@ -88,13 +90,13 @@ public class Main {
         long lastRefresh = System.currentTimeMillis();
         long timeSinceRefresh = 0;
 
-        while (frameCount <= 3000){
+        while (frameCount <= 10000){
 //            System.out.println(timeSinceRefresh);
             timeSinceRefresh = System.currentTimeMillis() - lastRefresh;
 
             world.upDateWorld();
 //            renderer.renderFrame(world.worldGrid);
-            if (timeSinceRefresh > 10) {
+            if (frameCount % 10 == 0) {
                 renderer.renderFrame(world.worldGrid);
                 lastRefresh = System.currentTimeMillis();
             }
@@ -105,10 +107,12 @@ public class Main {
             if (frameCount % 100 == 0) {
                 long elapsed = System.currentTimeMillis() - startTime;
                 double fps = frameCount * 1000.0 / elapsed;
-                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d%nSystem AvgX: %.2f | Dendrite AvgX: %.2f | Polarization index: %f\n",
+                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d" +
+                                "%nSystemAvgX: %.2f | Dendrite 1 AvgX: %.2f | All Dendrites AvgX: %.2f | Polarization indices: %.2f, %.2f, %.2f, %.2f, %.2f\n",
                         frameCount, fps,
                         world.getKinasesInSolution(), world.getTotalKinases(), world.getPhosphatasesInSolution(), world.getTotalPhosphatases(),
-                        world.getAvgSystemX(), world.getAvgDendriteX(), world.polarizationIdx());
+                        world.getAvgBodyX(), world.getAvgOneNodeX(1), world.getAvgAllNodeX(), world.polarizationIdx()[0],
+                        world.polarizationIdx()[1], world.polarizationIdx()[2], world.polarizationIdx()[3], world.polarizationIdx()[4]);
             }
 
             // Frame rate limiting

@@ -11,7 +11,7 @@ import java.awt.*;
  * allowing scrolling of the screen or tracking the avatar or something similar.
  */
 public class TERenderer {
-    private static final int TILE_SIZE = 4;
+    private static final int TILE_SIZE = 7;
     private int width;
     private int height;
     private int xOffset;
