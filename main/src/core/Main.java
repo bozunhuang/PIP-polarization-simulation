@@ -41,17 +41,17 @@ public class Main {
     private static final long FRAME_TIME_MS = 1000 / TARGET_FPS;
 
     public static void main(String[] args) {
-        int totalKinases = 200;
+        int totalKinases = 50;
         int totalPhosphatases = 50;
         double timestep = 0.01;
         double patchLength = 0.5;
         double dPip = 2.0;
         double alphaEnzyme = 0.2;
-        double k_mkon = 0.1;      // kinase on-rate
-        double k_koff = 0.5;      // kinase off-rate
-        double p_mkon = 0.5;      // phosphatase on-rate
-        double p_koff = 0.2;      // phosphatase off-rate
-        double k_mkcat = 10.0;     // kinase catalytic rate
+        double k_mkon = 0.005;      // kinase on-rate
+        double k_koff = 0.05;      // kinase off-rate
+        double p_mkon = 0.05;      // phosphatase on-rate
+        double p_koff = 0.01;      // phosphatase off-rate
+        double k_mkcat = 10;     // kinase catalytic rate
         double k_mKm = 0.5;       // kinase Michaelis constant
         double p_mkcat = 15;     // phosphatase catalytic rate
         double p_mKm = 0.5;

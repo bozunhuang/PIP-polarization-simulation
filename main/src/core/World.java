@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class World {
     // Random seed
-    private final Random random = new Random(42);
+    private final Random random = new Random();
 
     // World data
     public TETile[][] worldGrid;

@@ -21,10 +21,11 @@ public class dataCollection {
     private static final int HEIGHT = 101;
 
     // Number of runs
-    private static final int TOTAL_RUNS = 500;
+    private static final int TOTAL_RUNS = 100;
     // Parameter set generation mode
     private static final int PERIMETERS = 0;
-    private static final int ONE_VARIABLE = 1;
+    private static final int GRADIENT = 1;
+    private static final int FIXED_PARAM = 2;
 
 //    public static List<String[]> data = new ArrayList<>();
     public static List<String[]> data = Collections.synchronizedList(new ArrayList<>());
@@ -35,9 +36,9 @@ public class dataCollection {
     public static void main(String[] args) {
 
         // Set parameter set generation mode
-        int MODE = PERIMETERS;
+        int MODE = FIXED_PARAM;
 
-        outputFileName = "4_lobe_test_1000runs_2";
+        outputFileName = "fix_param_test_1";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -64,7 +65,7 @@ public class dataCollection {
             saveData();
         }
 
-        if  (MODE == ONE_VARIABLE) {
+        if  (MODE == GRADIENT) {
             ArrayList<ArrayList<ArrayList<Double>>> paramSet = parameters.singleVariables(20);
             int i = 1;
             for (ArrayList<ArrayList<Double>> paramSubset : paramSet) {
@@ -75,6 +76,22 @@ public class dataCollection {
                 }
             }
         }
+
+        if   (MODE == FIXED_PARAM) {
+            ArrayList<Double> params = parameters.getFixedParameters();
+
+            IntStream.range(0, TOTAL_RUNS)
+                    .parallel()
+                    .forEach(i -> {
+                        try {
+                            System.out.println("Starting run: " + i);
+                            runSimulations(params, i);
+                        } catch (Exception e) {
+                            System.err.println("Error in run " + i + ": " + e.getMessage());
+                        }
+                    });
+        }
+
 
         // Save data
         saveData();
@@ -99,7 +116,7 @@ public class dataCollection {
 
         long frameCount = 0;
 
-        while (frameCount <= 3000){
+        while (frameCount <= 5000){
 
             // Update simulation status
             world.upDateWorld();
