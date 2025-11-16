@@ -11,7 +11,7 @@ import java.awt.*;
  * allowing scrolling of the screen or tracking the avatar or something similar.
  */
 public class TERenderer {
-    private static final int TILE_SIZE = 4;
+    private static final int TILE_SIZE = 7;
     private int width;
     private int height;
     private int xOffset;
@@ -110,7 +110,7 @@ public class TERenderer {
      * if you changed the pen settings.
      */
     public void resetFont() {
-        Font font = new Font("Monaco", Font.BOLD, TILE_SIZE - 2);
+        Font font = new Font(Font.DIALOG, Font.PLAIN, TILE_SIZE);
         StdDraw.setFont(font);
     }
 }

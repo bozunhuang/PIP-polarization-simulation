@@ -4,7 +4,6 @@ import tileengine.DTile;
 import tileengine.TETile;
 
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Random;
 
 public class World {
@@ -111,40 +110,6 @@ public class World {
         }
     }
 
-//    public void setUpFloor(){
-//        int r = RADIUS;
-//        for (int x = 0; x < 2 * r + 1; x++) {
-//            for (int y = 0; y < 2 * r + 1; y++) {
-//                long curr_right = Math.round(Math.sqrt(Math.pow(x + r, 2) + Math.pow(y + r, 2)));
-//                long curr_left = Math.round(Math.sqrt(Math.pow(x - r, 2) + Math.pow(y - r, 2)));
-//
-//                if (r > curr_left && r < curr_right) {
-//                    worldGrid[x][y] = new DTile();
-//                }
-//            }
-//        }
-//    }
-//
-//    public void addWalls(){
-//        for (int x = 1; x < WIDTH - 1; x++){
-//            for (int y = 1; y < HEIGHT - 1; y++){
-//                if (worldGrid[x][y] instanceof DTile){
-//                    // Check 4-neighbors (not diagonals)
-//                    int[] dx = {-1, 1, 0, 0};
-//                    int[] dy = {0, 0, -1, 1};
-//
-//                    for (int i = 0; i < 4; i++){
-//                        int nx = x + dx[i];
-//                        int ny = y + dy[i];
-//                        if (worldGrid[nx][ny] == Tileset.NOTHING){
-//                            worldGrid[nx][ny] = Tileset.FLOWER;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
     public void initializeEnzymes(int initialKinases, int initialPhosphatases) {
         totalKinases = initialKinases;
         totalPhosphatases = initialPhosphatases;
@@ -172,7 +137,6 @@ public class World {
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
-
                     // Unbind kinases
                     int kinasesToUnbind = 0;
                     for (int k = 0; k < tile.kinaseCount; k++){
@@ -294,17 +258,12 @@ public class World {
         // Use temporary arrays to avoid conflicts
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                updatedKinaseCount[x][y] = 0;
-                updatedPhosphataseCount[x][y] = 0;
-            }
-        }
-
-        // Copy current counts
-        for (int x = 0; x < width; x++){
-            for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
                     updatedKinaseCount[x][y] = tile.kinaseCount;
                     updatedPhosphataseCount[x][y] = tile.pptaseCount;
+                } else {
+                    updatedKinaseCount[x][y] = 0;
+                    updatedPhosphataseCount[x][y] = 0;
                 }
             }
         }
@@ -320,7 +279,6 @@ public class World {
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
-
                     // Move each kinase
                     for (int k = 0; k < tile.kinaseCount; k++){
                         if (random.nextDouble() >= Pstay) {
@@ -360,6 +318,7 @@ public class World {
     private int[] getRandomNeighbor(int x, int y) {
         // 4-connectivity only
         int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        int[][] validDirections = {{0, 0}, {0, 0}, {0, 0}, {0, 0}};
 
         // Count valid neighbors
         int validCount = 0;
@@ -368,6 +327,7 @@ public class World {
             int ny = y + dir[1];
             if (nx >= 0 && nx < width && ny >= 0 && ny < height
                     && worldGrid[nx][ny] instanceof DTile) {
+                validDirections[validCount] = dir;
                 validCount++;
             }
         }
@@ -375,31 +335,18 @@ public class World {
         if (validCount == 0) return null;
 
         // Choose random valid neighbor
-        int choice = random.nextInt(validCount);
-        int count = 0;
-        for (int[] dir : directions) {
-            int nx = x + dir[0];
-            int ny = y + dir[1];
-            if (nx >= 0 && nx < width && ny >= 0 && ny < height
-                    && worldGrid[nx][ny] instanceof DTile) {
-                if (count == choice) {
-                    return new int[]{nx, ny};
-                }
-                count++;
-            }
-        }
-
-        return null;
+        int[] choice = validDirections[random.nextInt(validCount)];
+        int nx = x + choice[0];
+        int ny = y + choice[1];
+        return new int[]{nx, ny};
     }
 
     private void diffusePIP() {
         // FTCS scheme: x_new = x(1 - 4α·n/4) + Σ(neighbors)·α
         // Must use temporary array to avoid in-place updates
-
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
-
                     // Count valid neighbors and sum their X values
                     int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
                     int neighborCount = 0;
@@ -409,16 +356,15 @@ public class World {
                         int nx = x + dir[0];
                         int ny = y + dir[1];
                         if (nx >= 0 && nx < width && ny >= 0 && ny < height
-                                && worldGrid[nx][ny] instanceof DTile) {
+                                && worldGrid[nx][ny] instanceof DTile neighbor) {
                             neighborCount++;
-                            neighborSum += ((DTile) worldGrid[nx][ny]).X;
+                            neighborSum += neighbor.X;
                         }
                     }
 
                     // FTCS update formula
                     double newX = tile.X * (1.0 - 4.0 * alphaPIP * (neighborCount / 4.0))
                             + neighborSum * alphaPIP;
-
                     updatedX[x][y] = Math.max(0.0, Math.min(1.0, newX));
                 } else {
                     updatedX[x][y] = 0;
@@ -445,7 +391,7 @@ public class World {
 
     public int getTotalPhosphatases() {return totalPhosphatases;}
 
-    public double getAvgSystemX() {
+    public double getAvgBodyX() {
         double totalSystemX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
@@ -459,7 +405,7 @@ public class World {
         return totalSystemX / tileCount;
     }
 
-    public double getAvgSingleDendriteX(int i) {
+    public double getAvgOneNodeX(int i) {
         double totalDendriteX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
@@ -473,7 +419,7 @@ public class World {
         return totalDendriteX / tileCount;
     }
 
-    public double getAvgAllDendriteX() {
+    public double getAvgAllNodeX() {
         double totalDendriteX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
@@ -487,10 +433,16 @@ public class World {
         return totalDendriteX / tileCount;
     }
 
-//    public double polarizationIdx(double dendriteX) {
-//        if (dendriteX< 0.00000001 || getAvgSystemX() < 0.00000001) {
-//            return 0.0;
-//        }
-//        return dendriteX/ (getAvgSystemX() + dendriteX);
-//    }
+    public double[] polarizationIdx() {
+        double[] nodes = new double[5];
+        for (int i = 1; i <= 4; i++){
+            if (getAvgOneNodeX(i) < 0.00000001 || getAvgBodyX() < 0.00000001) {
+                nodes[i] = 0.0;
+            } else {
+                nodes[i] = getAvgOneNodeX(i) / getAvgBodyX();
+            }
+        }
+        nodes[0] = getAvgAllNodeX() / getAvgBodyX();
+        return nodes;
+    }
 }

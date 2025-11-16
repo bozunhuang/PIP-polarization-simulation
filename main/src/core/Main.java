@@ -3,7 +3,9 @@ package core;
 import tileengine.TERenderer;
 import tileengine.TETile;
 
-import static maps.maps.CIRCLE_MAP;
+//import static maps.maps.CIRCLE_MAP;
+import java.util.Arrays;
+
 import static maps.maps.NEURITE_MAP;
 
 /// This class is used for testing one single-set of variables. Use the dataCollection class for large scale data collection.
@@ -20,8 +22,8 @@ public class Main {
     private static World world;
 //    private static final TETile[][] MAP = CIRCLE_MAP;
     private static final TETile[][] MAP = NEURITE_MAP;
-    private static final int WIDTH = 101;
-    private static final int HEIGHT = 101;
+    private static final int WIDTH = maps.WIDTH;
+    private static final int HEIGHT = maps.HEIGHT;
 //    private static final int RADIUS = (WIDTH - 1) / 2;
 
     // These should be calculated properly, not set arbitrarily
@@ -84,27 +86,33 @@ public class Main {
 
         long frameCount = 0;
         long startTime = System.currentTimeMillis();
+        long lastRefresh = System.currentTimeMillis();
+        long timeSinceRefresh = 0;
 
-        while (frameCount <= 200000){
-            long frameStart = System.currentTimeMillis();
+        while (frameCount <= 10000){
+//            System.out.println(timeSinceRefresh);
+            timeSinceRefresh = System.currentTimeMillis() - lastRefresh;
 
             world.upDateWorld();
 //            renderer.renderFrame(world.worldGrid);
             if (frameCount % 10 == 0) {
                 renderer.renderFrame(world.worldGrid);
+                lastRefresh = System.currentTimeMillis();
             }
 
             frameCount++;
 
             // Print status every 100 frames
-//            if (frameCount % 100 == 0) {
-//                long elapsed = System.currentTimeMillis() - startTime;
-//                double fps = frameCount * 1000.0 / elapsed;
-//                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d%nSystem AvgX: %.2f | Dendrite AvgX: %.2f | Polarization index: %f\n",
-//                        frameCount, fps,
-//                        world.getKinasesInSolution(), world.getTotalKinases(), world.getPhosphatasesInSolution(), world.getTotalPhosphatases(),
-//                        world.getAvgSystemX(), world.getAvgDendriteX(), world.polarizationIdx());
-//            }
+            if (frameCount % 100 == 0) {
+                long elapsed = System.currentTimeMillis() - startTime;
+                double fps = frameCount * 1000.0 / elapsed;
+                System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d" +
+                                "%nSystemAvgX: %.2f | Dendrite 1 AvgX: %.2f | All Dendrites AvgX: %.2f | Polarization indices: %.2f, %.2f, %.2f, %.2f, %.2f\n",
+                        frameCount, fps,
+                        world.getKinasesInSolution(), world.getTotalKinases(), world.getPhosphatasesInSolution(), world.getTotalPhosphatases(),
+                        world.getAvgBodyX(), world.getAvgOneNodeX(1), world.getAvgAllNodeX(), world.polarizationIdx()[0],
+                        world.polarizationIdx()[1], world.polarizationIdx()[2], world.polarizationIdx()[3], world.polarizationIdx()[4]);
+            }
 
             // Frame rate limiting
 //            long frameTime = System.currentTimeMillis() - frameStart;

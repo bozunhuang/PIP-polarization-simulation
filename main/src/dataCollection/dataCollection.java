@@ -77,22 +77,6 @@ public class dataCollection {
             }
         }
 
-        if   (MODE == FIXED_PARAM) {
-            ArrayList<Double> params = parameters.getFixedParameters();
-
-            IntStream.range(0, TOTAL_RUNS)
-                    .parallel()
-                    .forEach(i -> {
-                        try {
-                            System.out.println("Starting run: " + i);
-                            runSimulations(params, i);
-                        } catch (Exception e) {
-                            System.err.println("Error in run " + i + ": " + e.getMessage());
-                        }
-                    });
-        }
-
-
         // Save data
         saveData();
     }
@@ -125,7 +109,7 @@ public class dataCollection {
             frameCount++;
         }
 
-        System.out.println("Done simulation " + runNumber + "!");
+        System.out.println("Completed simulation " + runNumber + "!");
 
         // Save data
         String[] row = new String[params.size() + 8];
@@ -138,12 +122,12 @@ public class dataCollection {
 
         row[i] = String.valueOf(world.getKinasesInSolution());
         row[i + 1] = String.valueOf(world.getPhosphatasesInSolution());
-        row[i + 2] = String.valueOf(world.getAvgSystemX());
-        row[i + 3] = String.valueOf(world.getAvgSingleDendriteX(1));
-        row[i + 4] = String.valueOf(world.getAvgSingleDendriteX(2));
-        row[i + 5] = String.valueOf(world.getAvgSingleDendriteX(3));
-        row[i + 6] = String.valueOf(world.getAvgSingleDendriteX(4));
-        row[i + 7] = String.valueOf(world.getAvgAllDendriteX());
+        row[i + 2] = String.valueOf(world.getAvgBodyX());
+        row[i + 3] = String.valueOf(world.getAvgOneNodeX(1));
+        row[i + 4] = String.valueOf(world.getAvgOneNodeX(2));
+        row[i + 5] = String.valueOf(world.getAvgOneNodeX(3));
+        row[i + 6] = String.valueOf(world.getAvgOneNodeX(4));
+        row[i + 7] = String.valueOf(world.getAvgAllNodeX());
         data.add(row);
     }
 
