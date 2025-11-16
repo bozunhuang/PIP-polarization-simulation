@@ -77,6 +77,22 @@ public class dataCollection {
             }
         }
 
+        if   (MODE == FIXED_PARAM) {
+            ArrayList<Double> params = parameters.getFixedParameters();
+
+            IntStream.range(0, TOTAL_RUNS)
+                    .parallel()
+                    .forEach(i -> {
+                        try {
+                            System.out.println("Starting run: " + i);
+                            runSimulations(params, i);
+                        } catch (Exception e) {
+                            System.err.println("Error in run " + i + ": " + e.getMessage());
+                        }
+                    });
+        }
+
+
         // Save data
         saveData();
     }
