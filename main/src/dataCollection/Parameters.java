@@ -3,7 +3,7 @@ package dataCollection;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class parameters {
+public class Parameters {
     // Reference parameters
     static double totalKinases = 100;
     static double totalPhosphatases = 100;

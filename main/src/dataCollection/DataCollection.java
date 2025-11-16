@@ -1,7 +1,7 @@
 package dataCollection;
 
 import core.World;
-import tileengine.TERenderer;
+import maps.Maps;
 import tileengine.TETile;
 import com.opencsv.CSVWriter;
 import java.io.FileWriter;
@@ -12,13 +12,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.IntStream;
 
-import static maps.maps.NEURITE_MAP;
+import static maps.Maps.NEURITE_MAP;
 
-public class dataCollection {
+public class DataCollection {
     // Setup data
     private static final TETile[][] MAP = NEURITE_MAP;
-    private static final int WIDTH = 101;
-    private static final int HEIGHT = 101;
+    private static final int WIDTH = Maps.WIDTH;
+    private static final int HEIGHT = Maps.HEIGHT;
 
     // Number of runs
     private static final int TOTAL_RUNS = 100;
@@ -54,7 +54,7 @@ public class dataCollection {
                     .parallel()
                     .forEach(i -> {
                         try {
-                            ArrayList<Double> params = parameters.getPerimeters();
+                            ArrayList<Double> params = Parameters.getPerimeters();
                             System.out.println("Starting run: " + i);
                             runSimulations(params, i);
                         } catch (Exception e) {
@@ -66,7 +66,7 @@ public class dataCollection {
         }
 
         if  (MODE == GRADIENT) {
-            ArrayList<ArrayList<ArrayList<Double>>> paramSet = parameters.singleVariables(20);
+            ArrayList<ArrayList<ArrayList<Double>>> paramSet = Parameters.singleVariables(20);
             int i = 1;
             for (ArrayList<ArrayList<Double>> paramSubset : paramSet) {
                 for (ArrayList<Double> params : paramSubset) {
@@ -78,7 +78,7 @@ public class dataCollection {
         }
 
         if   (MODE == FIXED_PARAM) {
-            ArrayList<Double> params = parameters.getFixedParameters();
+            ArrayList<Double> params = Parameters.getFixedParameters();
 
             IntStream.range(0, TOTAL_RUNS)
                     .parallel()

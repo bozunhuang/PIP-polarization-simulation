@@ -2,7 +2,7 @@ package dataCollection;
 
 import java.util.HashMap;
 
-public class parameterSet {
+public class ParameterSet {
     public HashMap<String, Double> [] parameterMatrix;
     public static String[] variableNames = new String[]{"D_PIP", "ALPHA_ENZYME", "totalKinases", "totalPhosphatases",  "k_mkon", "k_koff", "K_mkcat", "k_mkm", "p_mkon", "p_koff", "p_mkcat", "p_mkm"};
 
@@ -22,11 +22,11 @@ public class parameterSet {
     public static Range<Double>[] Ranges = new Range[]{DPIPRange, ALPHAPRange,  totalKinasesRange, totalPhosphatasesRange, k_mkonRange, k_koffRange, K_mkcatRange, k_mkmRange, p_mkonRange, p_koffRange, p_mkcatRange, p_mkmRange};
 
     public static void main(String[] args){
-        parameterSet pSet = new parameterSet();
+        ParameterSet pSet = new ParameterSet();
         pSet.generateParamSet();
     }
 
-    public parameterSet(){
+    public ParameterSet(){
         parameterMatrix = new HashMap[maxDimension(Ranges)];;
         generateParamSet();
     }

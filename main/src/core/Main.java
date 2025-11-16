@@ -4,9 +4,8 @@ import tileengine.TERenderer;
 import tileengine.TETile;
 
 //import static maps.maps.CIRCLE_MAP;
-import java.util.Arrays;
 
-import static maps.maps.NEURITE_MAP;
+import static maps.Maps.NEURITE_MAP;
 
 /// This class is used for testing one single-set of variables. Use the dataCollection class for large scale data collection.
 /// Graphic rendering is enabled in this class for demonstration purposes

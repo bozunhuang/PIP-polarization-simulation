@@ -5,7 +5,7 @@ import tileengine.TERenderer;
 import tileengine.TETile;
 import tileengine.Tileset;
 
-public class maps {
+public class Maps {
     public static final int WIDTH = 101;
     public static final int HEIGHT = WIDTH;
     private static final int RADIUS = WIDTH / 2;
