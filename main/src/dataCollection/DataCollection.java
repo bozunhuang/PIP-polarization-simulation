@@ -26,6 +26,7 @@ public class DataCollection {
     private static final int PERIMETERS = 0;
     private static final int GRADIENT = 1;
     private static final int FIXED_PARAM = 2;
+    private static final int FIXED_AND_PERIMETERS = 3;
 
 //    public static List<String[]> data = new ArrayList<>();
     public static List<String[]> data = Collections.synchronizedList(new ArrayList<>());
@@ -36,9 +37,9 @@ public class DataCollection {
     public static void main(String[] args) {
 
         // Set parameter set generation mode
-        int MODE = FIXED_PARAM;
+        int MODE = FIXED_AND_PERIMETERS;
 
-        outputFileName = "fix_param_test_1";
+        outputFileName = "perimeter_fixed_test_2";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -92,6 +93,56 @@ public class DataCollection {
                     });
         }
 
+
+        if (MODE == FIXED_PARAM) {
+            ArrayList<Double> params = parameters.getFixedParameters();
+            IntStream.range(0, TOTAL_RUNS)
+                    .parallel()
+                    .forEach(i -> {
+                        try {
+                            System.out.println("Starting run: " + i);
+                            runSimulations(params, i);
+                        } catch (Exception e) {
+                            System.err.println("Error in run " + i + ": " + e.getMessage());
+                        }
+                    });
+
+            saveData();
+        }
+
+        if (MODE == FIXED_PARAM) {
+            ArrayList<Double> params = parameters.getFixedParameters();
+            IntStream.range(0, TOTAL_RUNS)
+                    .parallel()
+                    .forEach(i -> {
+                        try {
+                            System.out.println("Starting run: " + i);
+                            runSimulations(params, i);
+                        } catch (Exception e) {
+                            System.err.println("Error in run " + i + ": " + e.getMessage());
+                        }
+                    });
+
+            saveData();
+        }
+
+        if (MODE == FIXED_AND_PERIMETERS) {
+            int runs = 20;
+            int reps = 30;
+            ArrayList<ArrayList<Double>> paramSet = parameters.getPerimeterFixedParameters(runs, reps);
+            IntStream.range(0, runs * reps)
+                    .parallel()
+                    .forEach(i -> {
+                        try {
+                            System.out.println("Starting run: " + i);
+                            runSimulations(paramSet.get(i), i);
+                        } catch (Exception e) {
+                            System.err.println("Error in run " + i + ": " + e.getMessage());
+                        }
+                    });
+
+            saveData();
+        }
 
         // Save data
         saveData();
@@ -150,8 +201,8 @@ public class DataCollection {
         String[] header = {"Total Kinase", "Total Phosphatase", "Timestep", "Patch Length", "dPIP",
                             "alphaEnzyme", "k_mkon", "k_koff", "p_mkon", "p_koff", "k_mkcat", "k_mKm",
                             "p_mkcat", "p_mKm", "Kinase in Solution", "Phosphatase in Solution",
-                            "Average System X", "Average Dendrite 1 X","Average Dendrite 2 X",
-                            "Average Dendrite 3 X","Average Dendrite 4 X","Average All Dendrites X"};
+                            "Average Body X", "Average Node 1 X","Average Node 2 X",
+                            "Average Node 3 X","Average Node 4 X","Average All Nodes X"};
 
         try (CSVWriter writer = new CSVWriter(new FileWriter(csvFilePath))) {
             writer.writeNext(header); // Write the header row

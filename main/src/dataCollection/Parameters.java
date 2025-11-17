@@ -5,18 +5,18 @@ import java.util.Random;
 
 public class Parameters {
     // Reference parameters
-    static double totalKinases = 100;
-    static double totalPhosphatases = 100;
+    static double totalKinases = 50;
+    static double totalPhosphatases = 50;
     static double timestep = 0.01;
     static double patchLength = 0.5;
-    static double dPIP = 4;
+    static double dPIP = 2;
     static double alphaEnzyme = 0.2;
-    static double k_mkon = 0.1;      // kinase on-rate
-    static double k_koff = 0.5;      // kinase off-rate
+    static double k_mkon = 0.01;      // kinase on-rate
+    static double k_koff = 0.05;      // kinase off-rate
     static double p_mkon = 0.05;      // phosphatase on-rate
-    static double p_koff = 0.2;      // phosphatase off-rate
+    static double p_koff = 0.01;      // phosphatase off-rate
     static double k_mkcat = 10.0;     // kinase catalytic rate
-    static double k_mKm = 2.0;       // kinase Michaelis constant
+    static double k_mKm = 0.5;       // kinase Michaelis constant
     static double p_mkcat = 15;     // phosphatase catalytic rate
     static double p_mKm = 0.5;
 
@@ -29,20 +29,21 @@ public class Parameters {
 
     public static ArrayList<Double> getPerimeters() {
         ArrayList<Double> parameterSet = new ArrayList<>();
+        int perturbFactor = 3;
         parameterSet.add(random.nextDouble( 10, totalKinases * 10));
         parameterSet.add(random.nextDouble(10, totalPhosphatases * 10));
         parameterSet.add(timestep);
         parameterSet.add(patchLength);
         parameterSet.add(dPIP + random.nextDouble(-1, 1));
-        parameterSet.add(random.nextDouble(alphaEnzyme / 2, alphaEnzyme * 2));
-        parameterSet.add(random.nextDouble(k_mkon / 2, k_mkon * 2));
-        parameterSet.add(random.nextDouble(k_koff / 2, k_koff * 2));
-        parameterSet.add(random.nextDouble(p_mkon / 2, p_mkon * 2));
-        parameterSet.add(random.nextDouble(p_koff / 2, p_koff * 2));
-        parameterSet.add(random.nextDouble(k_mkcat / 2, k_mkcat * 2));
-        parameterSet.add(random.nextDouble(k_mKm / 2, k_mKm * 2));
-        parameterSet.add(random.nextDouble(p_mkcat / 2, p_mkcat * 2));
-        parameterSet.add(random.nextDouble(p_mKm / 2, p_mKm * 2));
+        parameterSet.add(random.nextDouble(alphaEnzyme / perturbFactor, alphaEnzyme * perturbFactor));
+        parameterSet.add(random.nextDouble(k_mkon / perturbFactor, k_mkon * perturbFactor));
+        parameterSet.add(random.nextDouble(k_koff / perturbFactor, k_koff * perturbFactor));
+        parameterSet.add(random.nextDouble(p_mkon / perturbFactor, p_mkon * perturbFactor));
+        parameterSet.add(random.nextDouble(p_koff / perturbFactor, p_koff * perturbFactor));
+        parameterSet.add(random.nextDouble(k_mkcat / perturbFactor, k_mkcat * perturbFactor));
+        parameterSet.add(random.nextDouble(k_mKm / perturbFactor, k_mKm * perturbFactor));
+        parameterSet.add(random.nextDouble(p_mkcat / perturbFactor, p_mkcat * perturbFactor));
+        parameterSet.add(random.nextDouble(p_mKm / perturbFactor, p_mKm * perturbFactor));
         return parameterSet;
     }
 
@@ -127,5 +128,16 @@ public class Parameters {
         parameterSet.add(p_mKm);
 
         return parameterSet;
+    }
+
+    public static ArrayList<ArrayList<Double>> getPerimeterFixedParameters(int runs, int reps) {
+        ArrayList<ArrayList<Double>> parameterSet = new ArrayList<>();
+        for (int i = 0; i < runs; i++) {
+            ArrayList<Double> temp = getPerimeters();
+            for (int j = 0; j < reps; j++) {
+                parameterSet.add(temp);
+            }
+        }
+        return  parameterSet;
     }
 }
