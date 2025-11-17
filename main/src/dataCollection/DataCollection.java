@@ -56,7 +56,7 @@ public class DataCollection {
                         try {
                             ArrayList<Double> params = Parameters.getPerimeters();
                             System.out.println("Starting run: " + i);
-                            runSimulations(params, i);
+                            runSimulation(params, i);
                         } catch (Exception e) {
                             System.err.println("Error in run " + i + ": " + e.getMessage());
                         }
@@ -71,7 +71,7 @@ public class DataCollection {
             for (ArrayList<ArrayList<Double>> paramSubset : paramSet) {
                 for (ArrayList<Double> params : paramSubset) {
                     System.out.println("Starting run: " + i);
-                    runSimulations(params, i);
+                    runSimulation(params, i);
                     i++;
                 }
             }
@@ -85,7 +85,7 @@ public class DataCollection {
                     .forEach(i -> {
                         try {
                             System.out.println("Starting run: " + i);
-                            runSimulations(params, i);
+                            runSimulation(params, i);
                         } catch (Exception e) {
                             System.err.println("Error in run " + i + ": " + e.getMessage());
                         }
@@ -97,7 +97,7 @@ public class DataCollection {
         saveData();
     }
 
-    private static void runSimulations(ArrayList<Double> params, int runNumber) {
+    private static void runSimulation(ArrayList<Double> params, int runNumber) {
         // Calculate alphaPIP for stability check
         double timestep = params.get(2);
         double patchLength = params.get(3);
@@ -116,11 +116,9 @@ public class DataCollection {
 
         long frameCount = 0;
 
-        while (frameCount <= 5000){
-
+        while (frameCount <= 5000) {
             // Update simulation status
             world.upDateWorld();
-
             // Increase frame count
             frameCount++;
         }

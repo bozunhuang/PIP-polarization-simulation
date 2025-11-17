@@ -1,5 +1,6 @@
 package core;
 
+import maps.Maps;
 import tileengine.TERenderer;
 import tileengine.TETile;
 
@@ -21,8 +22,8 @@ public class Main {
     private static World world;
 //    private static final TETile[][] MAP = CIRCLE_MAP;
     private static final TETile[][] MAP = NEURITE_MAP;
-    private static final int WIDTH = maps.WIDTH;
-    private static final int HEIGHT = maps.HEIGHT;
+    private static final int WIDTH = Maps.WIDTH;
+    private static final int HEIGHT = Maps.HEIGHT;
 //    private static final int RADIUS = (WIDTH - 1) / 2;
 
     // These should be calculated properly, not set arbitrarily

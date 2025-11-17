@@ -45,10 +45,19 @@ public class World {
     public World(TETile[][] map, int width, int height, double alphaPIP, double alphaEnzyme,
                  double timestep, double patchLength, double k_mkon, double k_koff, double p_mkon, double p_koff,
                  double k_mkcat, double k_mKm, double p_mkcat, double p_mKm) {
-        worldGrid = map;
         this.width = width;
         this.height = height;
         this.alphaPIP = alphaPIP;
+        worldGrid = new TETile[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (map[x][y] instanceof DTile tile) {
+                    worldGrid[x][y] = new DTile(tile);
+                } else {
+                    worldGrid[x][y] = map[x][y];
+                }
+            }
+        }
         this.alphaEnzyme = alphaEnzyme;
         this.timestep = timestep;
         this.patchLength = patchLength;
@@ -66,10 +75,19 @@ public class World {
     }
 
     public World(TETile[][] map, int width, int height, double alphaPIP, ArrayList<Double> params) {
-        worldGrid = map;
         this.width = width;
         this.height = height;
         this.alphaPIP = alphaPIP;
+        worldGrid = new TETile[width][height];
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (map[x][y] instanceof DTile tile) {
+                    worldGrid[x][y] = new DTile(tile);
+                } else {
+                    worldGrid[x][y] = map[x][y];
+                }
+            }
+        }
         int initialKinases = (int) Math.round(params.get(0));
         int initialPhosphatases = (int) Math.round(params.get(1));
 
@@ -391,13 +409,25 @@ public class World {
 
     public int getTotalPhosphatases() {return totalPhosphatases;}
 
+    public int getTotalBoundKinases() {
+        int total = 0;
+        for (int x = 0; x < 101; x++){
+            for (int y = 0; y < 101; y++){
+                if (worldGrid[x][y] instanceof DTile tile) {
+                    total += tile.kinaseCount;
+                }
+            }
+        }
+        return total;
+    }
+
     public double getAvgBodyX() {
         double totalSystemX = 0;
         int tileCount = 0;
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                if (worldGrid[x][y] instanceof DTile && ((DTile) worldGrid[x][y]).tracker == 0) {
-                    totalSystemX += ((DTile) worldGrid[x][y]).X;
+                if (worldGrid[x][y] instanceof DTile tile && tile.tracker == 0) {
+                    totalSystemX += tile.X;
                     tileCount++;
                 }
             }
@@ -410,8 +440,8 @@ public class World {
         int tileCount = 0;
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                if (worldGrid[x][y] instanceof DTile && ((DTile) worldGrid[x][y]).tracker == i) {
-                    totalDendriteX += ((DTile) worldGrid[x][y]).X;
+                if (worldGrid[x][y] instanceof DTile tile && tile.tracker == i) {
+                    totalDendriteX += tile.X;
                     tileCount++;
                 }
             }
@@ -424,8 +454,8 @@ public class World {
         int tileCount = 0;
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
-                if (worldGrid[x][y] instanceof DTile && ((DTile) worldGrid[x][y]).tracker > 0) {
-                    totalDendriteX += ((DTile) worldGrid[x][y]).X;
+                if (worldGrid[x][y] instanceof DTile tile && tile.tracker > 0) {
+                    totalDendriteX += tile.X;
                     tileCount++;
                 }
             }
