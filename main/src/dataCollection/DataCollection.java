@@ -37,9 +37,9 @@ public class DataCollection {
     public static void main(String[] args) {
 
         // Set parameter set generation mode
-        int MODE = FIXED_AND_PERIMETERS;
+        int MODE = FIXED_PARAM;
 
-        outputFileName = "perimeter_fixed_test_2";
+        outputFileName = "fix_param_test_1";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
