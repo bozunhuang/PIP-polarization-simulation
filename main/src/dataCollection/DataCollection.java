@@ -62,8 +62,6 @@ public class DataCollection {
                             System.err.println("Error in run " + i + ": " + e.getMessage());
                         }
                     });
-
-            saveData();
         }
 
         if  (MODE == GRADIENT) {
@@ -93,55 +91,20 @@ public class DataCollection {
                     });
         }
 
-
-        if (MODE == FIXED_PARAM) {
-            ArrayList<Double> params = parameters.getFixedParameters();
-            IntStream.range(0, TOTAL_RUNS)
-                    .parallel()
-                    .forEach(i -> {
-                        try {
-                            System.out.println("Starting run: " + i);
-                            runSimulations(params, i);
-                        } catch (Exception e) {
-                            System.err.println("Error in run " + i + ": " + e.getMessage());
-                        }
-                    });
-
-            saveData();
-        }
-
-        if (MODE == FIXED_PARAM) {
-            ArrayList<Double> params = parameters.getFixedParameters();
-            IntStream.range(0, TOTAL_RUNS)
-                    .parallel()
-                    .forEach(i -> {
-                        try {
-                            System.out.println("Starting run: " + i);
-                            runSimulations(params, i);
-                        } catch (Exception e) {
-                            System.err.println("Error in run " + i + ": " + e.getMessage());
-                        }
-                    });
-
-            saveData();
-        }
-
         if (MODE == FIXED_AND_PERIMETERS) {
             int runs = 20;
             int reps = 30;
-            ArrayList<ArrayList<Double>> paramSet = parameters.getPerimeterFixedParameters(runs, reps);
+            ArrayList<ArrayList<Double>> paramSet = Parameters.getPerimeterFixedParameters(runs, reps);
             IntStream.range(0, runs * reps)
                     .parallel()
                     .forEach(i -> {
                         try {
                             System.out.println("Starting run: " + i);
-                            runSimulations(paramSet.get(i), i);
+                            runSimulation(paramSet.get(i), i);
                         } catch (Exception e) {
                             System.err.println("Error in run " + i + ": " + e.getMessage());
                         }
                     });
-
-            saveData();
         }
 
         // Save data
