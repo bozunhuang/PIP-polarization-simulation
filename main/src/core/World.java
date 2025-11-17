@@ -411,8 +411,8 @@ public class World {
 
     public int getTotalBoundKinases() {
         int total = 0;
-        for (int x = 0; x < 101; x++){
-            for (int y = 0; y < 101; y++){
+        for (int x = 0; x < width; x++){
+            for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
                     total += tile.kinaseCount;
                 }
