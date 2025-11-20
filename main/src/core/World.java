@@ -184,16 +184,19 @@ public class World {
     }
 
     private void bind() {
-        if (kinasesInSolution > 0) {
-            // Random number for stochastic binding
-            double kinaseRandom = random.nextDouble();
-            double totalK_Pon = 0;
-            boolean kinaseBound = false;
-            // Process binding for each patch
-            for (int x = 0; x < width && !kinaseBound; x++) {
-                for (int y = 0; y < height && !kinaseBound; y++) {
-                    if (worldGrid[x][y] instanceof DTile tile) {
+        // Random number for stochastic binding
+        double kinaseRandom = random.nextDouble();
+        double totalK_Pon = 0;
+        boolean kinaseBound = false;
+        double pptaseRandom = random.nextDouble();
+        double totalP_Pon = 0;
+        boolean pptaseBound = false;
 
+        // Process binding for each patch
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                if (worldGrid[x][y] instanceof DTile tile) {
+                    if (kinasesInSolution > 0 && !kinaseBound) {
                         // Calculate and store k_Pon (kinase binding probability)
                         // Kinase binding depends on X (binds to PIP2)
                         tile.k_Pon = k_mkon * tile.X * patchArea * timestep;
@@ -208,9 +211,8 @@ public class World {
                         totalK_Pon += tile.k_Pon;
 
                         // Binding event
-                        if (kinaseRandom < 0.0) {
+                        if (kinaseRandom < 0.0 && !kinaseBound) {
                             tile.kinaseCount++;
-                            kinasesInSolution--;
                             kinaseBound = true;
                         }
                         if (totalK_Pon > 1.0) {
@@ -218,18 +220,8 @@ public class World {
                                     tile.X + " " + patchArea + " " + timestep + " " + kinasesInSolution + " " + totalKinases);
                         }
                     }
-                }
-            }
-//            System.out.println("k_Pon total: " + totalK_Pon);
-        }
-        if (pptasesInSolution > 0) {
-            // Random number for stochastic binding
-            double pptaseRandom = random.nextDouble();
-            double totalP_Pon = 0;
-            boolean pptaseBound = false;
-            for (int x = 0; x < width && !pptaseBound; x++) {
-                for (int y = 0; y < height && !pptaseBound; y++) {
-                    if (worldGrid[x][y] instanceof DTile tile) {
+
+                    if (pptasesInSolution > 0 && !pptaseBound) {
                         // Calculate and store p_Pon (phosphatase binding probability)
                         // Phosphatase binding depends on (1-X) (binds to PIP1)
                         tile.p_Pon = p_mkon * (1.0 - tile.X) * patchArea * timestep;
@@ -244,9 +236,8 @@ public class World {
                         totalP_Pon += tile.p_Pon;
 
                         // Binding event
-                        if (pptaseRandom < 0.0) {
+                        if (pptaseRandom < 0.0 && !pptaseBound) {
                             tile.pptaseCount++;
-                            pptasesInSolution--;
                             pptaseBound = true;
                         }
                         if (tile.p_Pon > 1.0) {
@@ -256,7 +247,12 @@ public class World {
                     }
                 }
             }
-//            System.out.println("p_Pon total: " + totalP_Pon);
+        }
+        if (kinaseBound) {
+            kinasesInSolution--;
+        }
+        if (pptaseBound) {
+            pptasesInSolution--;
         }
     }
 
