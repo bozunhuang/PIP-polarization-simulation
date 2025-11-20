@@ -44,7 +44,7 @@ public class Main {
 
     public static void main(String[] args) {
         int totalKinases = 50;
-        int totalPhosphatases = 50;
+        int totalPptases = 50;
         double timestep = 0.01;
         double patchLength = 0.5;
         double dPip = 2.0;
@@ -58,10 +58,10 @@ public class Main {
         double p_mkcat = 15;     // phosphatase catalytic rate
         double p_mKm = 0.5;
 
-        runGame(totalKinases, totalPhosphatases, timestep, patchLength, dPip, alphaEnzyme, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
+        runGame(totalKinases, totalPptases, timestep, patchLength, dPip, alphaEnzyme, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
     }
 
-    private static void runGame(int initialKinases, int initialPhosphatases, double timestep, double patchLength,
+    private static void runGame(int initialKinases, int initialPptases, double timestep, double patchLength,
                                 double dPIP, double alphaEnzyme, double k_mkon, double k_koff, double p_mkon,
                                 double p_koff, double k_mkcat, double k_mKm, double p_mkcat, double p_mKm){
         double alphaPIP = dPIP * timestep / (patchLength * patchLength);
@@ -75,10 +75,10 @@ public class Main {
         }
 
         world = new World(MAP, WIDTH, HEIGHT, alphaPIP, alphaEnzyme, timestep, patchLength, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
-        world.initializeEnzymes(initialKinases, initialPhosphatases);
+        world.initializeEnzymes(initialKinases, initialPptases);
 
         System.out.println("Initial kinases in solution: " + initialKinases);
-        System.out.println("Initial phosphatases in solution: " + initialPhosphatases);
+        System.out.println("Initial phosphatases in solution: " + initialPptases);
         System.out.println("Starting simulation...");
 
         TERenderer renderer = new TERenderer();
@@ -93,7 +93,7 @@ public class Main {
 //            System.out.println(timeSinceRefresh);
             timeSinceRefresh = System.currentTimeMillis() - lastRefresh;
 
-            world.upDateWorld();
+            world.updateWorld();
 //            renderer.renderFrame(world.worldGrid);
             if (frameCount % 10 == 0) {
                 renderer.renderFrame(world.worldGrid);
@@ -109,7 +109,7 @@ public class Main {
                 System.out.printf("Frame %d | FPS: %.1f | Kinases(sol/total): %d/%d | Pptases(sol/total): %d/%d" +
                                 "%nSystemAvgX: %.2f | Dendrite 1 AvgX: %.2f | All Dendrites AvgX: %.2f | Polarization indices: %.2f, %.2f, %.2f, %.2f, %.2f\n",
                         frameCount, fps,
-                        world.getKinasesInSolution(), world.getTotalKinases(), world.getPhosphatasesInSolution(), world.getTotalPhosphatases(),
+                        world.getKinasesInSolution(), world.getTotalKinases(), world.getPptasesInSolution(), world.getTotalPptases(),
                         world.getAvgBodyX(), world.getAvgOneNodeX(1), world.getAvgAllNodeX(), world.polarizationIdx()[0],
                         world.polarizationIdx()[1], world.polarizationIdx()[2], world.polarizationIdx()[3], world.polarizationIdx()[4]);
             }

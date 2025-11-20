@@ -20,12 +20,13 @@ public class World {
     private double alphaEnzyme;
     private double timestep;
     private double patchLength;
+    private double patchArea;
 
     // Enzyme conservation tracking
     private int totalKinases;
-    private int totalPhosphatases;
+    private int totalPptases;
     private int kinasesInSolution;
-    private int phosphatasesInSolution;
+    private int pptasesInSolution;
 
     // Kinetic parameters (from NetLogo)
     private final double k_mkon;      // kinase on-rate
@@ -40,7 +41,7 @@ public class World {
     // Temporary storage for diffusion (avoid in-place updates)
     private double[][] updatedX;
     private int[][] updatedKinaseCount;
-    private int[][] updatedPhosphataseCount;
+    private int[][] updatedPptaseCount;
 
     public World(TETile[][] map, int width, int height, double alphaPIP, double alphaEnzyme,
                  double timestep, double patchLength, double k_mkon, double k_koff, double p_mkon, double p_koff,
@@ -61,6 +62,7 @@ public class World {
         this.alphaEnzyme = alphaEnzyme;
         this.timestep = timestep;
         this.patchLength = patchLength;
+        this.patchArea = patchLength * patchLength;
 
         this.k_mkon = k_mkon;
         this.k_koff = k_koff;
@@ -89,7 +91,7 @@ public class World {
             }
         }
         int initialKinases = (int) Math.round(params.get(0));
-        int initialPhosphatases = (int) Math.round(params.get(1));
+        int initialPptases = (int) Math.round(params.get(1));
 
         timestep = params.get(2);
         patchLength = params.get(3);
@@ -103,21 +105,23 @@ public class World {
         k_mKm = params.get(11);
         p_mkcat = params.get(12);
         p_mKm = params.get(13);
+
+        this.patchArea = patchLength * patchLength;
         initialize();
-        initializeEnzymes(initialKinases, initialPhosphatases);
+        initializeEnzymes(initialKinases, initialPptases);
         validateStability();
     }
 
     private void initialize(){
         updatedX = new double[width][height];
         updatedKinaseCount = new int[width][height];
-        updatedPhosphataseCount = new int[width][height];
+        updatedPptaseCount = new int[width][height];
 
         // Initialize enzyme pools
         totalKinases = 0;
-        totalPhosphatases = 0;
+        totalPptases = 0;
         kinasesInSolution = 0;
-        phosphatasesInSolution = 0;
+        pptasesInSolution = 0;
     }
 
     private void validateStability() {
@@ -128,14 +132,14 @@ public class World {
         }
     }
 
-    public void initializeEnzymes(int initialKinases, int initialPhosphatases) {
+    public void initializeEnzymes(int initialKinases, int initialPptases) {
         totalKinases = initialKinases;
-        totalPhosphatases = initialPhosphatases;
+        totalPptases = initialPptases;
         kinasesInSolution = initialKinases;
-        phosphatasesInSolution = initialPhosphatases;
+        pptasesInSolution = initialPptases;
     }
 
-    public void upDateWorld() {
+    public void updateWorld() {
         // Follow NetLogo order: unbind -> bind -> convert -> move
         unbind();
         bind();
@@ -166,41 +170,32 @@ public class World {
                     kinasesInSolution += kinasesToUnbind;
 
                     // Unbind phosphatases
-                    int phosphatasesToUnbind = 0;
+                    int pptasesToUnbind = 0;
                     for (int p = 0; p < tile.pptaseCount; p++){
                         if (random.nextDouble() < p_Poff){
-                            phosphatasesToUnbind++;
+                            pptasesToUnbind++;
                         }
                     }
-                    tile.pptaseCount -= phosphatasesToUnbind;
-                    phosphatasesInSolution += phosphatasesToUnbind;
+                    tile.pptaseCount -= pptasesToUnbind;
+                    pptasesInSolution += pptasesToUnbind;
                 }
             }
         }
     }
 
     private void bind() {
-        // Collect all membrane tiles first (like NetLogo's inpatches)
-        int membraneCount = 0;
-        for (int x = 0; x < width; x++){
-            for (int y = 0; y < height; y++){
-                if (worldGrid[x][y] instanceof DTile) {
-                    membraneCount++;
-                }
-            }
-        }
+        if (kinasesInSolution > 0) {
+            // Random number for stochastic binding
+            double kinaseRandom = random.nextDouble();
+            double totalK_Pon = 0;
+            boolean kinaseBound = false;
+            // Process binding for each patch
+            for (int x = 0; x < width && !kinaseBound; x++) {
+                for (int y = 0; y < height && !kinaseBound; y++) {
+                    if (worldGrid[x][y] instanceof DTile tile) {
 
-        if (membraneCount == 0) return;
-
-        // Process binding for each patch
-        for (int x = 0; x < width; x++){
-            for (int y = 0; y < height; y++){
-                if (worldGrid[x][y] instanceof DTile tile) {
-                    double patchArea = patchLength * patchLength;
-
-                    // Calculate and store k_Pon (kinase binding probability)
-                    // Kinase binding depends on X (binds to PIP2)
-                    if (kinasesInSolution > 0) {
+                        // Calculate and store k_Pon (kinase binding probability)
+                        // Kinase binding depends on X (binds to PIP2)
                         tile.k_Pon = k_mkon * tile.X * patchArea * timestep;
                         // Adjust by available fraction (from NetLogo)
                         tile.k_Pon *= (double) kinasesInSolution / totalKinases;
@@ -209,33 +204,59 @@ public class World {
                             System.err.println("WARNING: k_Pon = " + tile.k_Pon + " > 1 at (" + x + "," + y + ")" + " " + k_mkon + " " +
                                     tile.X + " " + patchArea + " " + timestep + " " + kinasesInSolution + " " + totalKinases);
                         }
+                        kinaseRandom -= tile.k_Pon;
+                        totalK_Pon += tile.k_Pon;
 
-                        // Stochastic binding event
-                        if (random.nextDouble() < tile.k_Pon) {
+                        // Binding event
+                        if (kinaseRandom < 0.0) {
                             tile.kinaseCount++;
                             kinasesInSolution--;
+                            kinaseBound = true;
                         }
-                    }
-
-                    // Calculate and store p_Pon (phosphatase binding probability)
-                    // Phosphatase binding depends on (1-X) (binds to PIP1)
-                    if (phosphatasesInSolution > 0) {
-                        tile.p_Pon = p_mkon * (1.0 - tile.X) * patchArea * timestep;
-                        // Adjust by available fraction (from NetLogo)
-                        tile.p_Pon *= (double) phosphatasesInSolution / totalPhosphatases;
-
-                        if (tile.p_Pon > 1.0) {
-                            System.err.println("WARNING: p_Pon = " + tile.p_Pon + " > 1 at (" + x + "," + y + ")");
-                        }
-
-                        // Stochastic binding event
-                        if (random.nextDouble() < tile.p_Pon) {
-                            tile.pptaseCount++;
-                            phosphatasesInSolution--;
+                        if (totalK_Pon > 1.0) {
+                            System.err.println("WARNING: k_Pon total = " + totalK_Pon + " > 1 at (" + x + "," + y + ")" + " " + k_mkon + " " +
+                                    tile.X + " " + patchArea + " " + timestep + " " + kinasesInSolution + " " + totalKinases);
                         }
                     }
                 }
             }
+//            System.out.println("k_Pon total: " + totalK_Pon);
+        }
+        if (pptasesInSolution > 0) {
+            // Random number for stochastic binding
+            double pptaseRandom = random.nextDouble();
+            double totalP_Pon = 0;
+            boolean pptaseBound = false;
+            for (int x = 0; x < width && !pptaseBound; x++) {
+                for (int y = 0; y < height && !pptaseBound; y++) {
+                    if (worldGrid[x][y] instanceof DTile tile) {
+                        // Calculate and store p_Pon (phosphatase binding probability)
+                        // Phosphatase binding depends on (1-X) (binds to PIP1)
+                        tile.p_Pon = p_mkon * (1.0 - tile.X) * patchArea * timestep;
+                        // Adjust by available fraction (from NetLogo)
+                        tile.p_Pon *= (double) pptasesInSolution / totalPptases;
+
+                        if (tile.p_Pon > 1.0) {
+                            System.err.println("WARNING: p_Pon = " + tile.p_Pon + " > 1 at (" + x + "," + y + ")" + " " + p_mkon + " " +
+                                    (1 - tile.X) + " " + patchArea + " " + timestep + " " + pptasesInSolution + " " + totalPptases);
+                        }
+                        pptaseRandom -= tile.p_Pon;
+                        totalP_Pon += tile.p_Pon;
+
+                        // Binding event
+                        if (pptaseRandom < 0.0) {
+                            tile.pptaseCount++;
+                            pptasesInSolution--;
+                            pptaseBound = true;
+                        }
+                        if (tile.p_Pon > 1.0) {
+                            System.err.println("WARNING: p_Pon total = " + totalP_Pon + " > 1 at (" + x + "," + y + ")" + " " + p_mkon + " " +
+                                    (1 - tile.X) + " " + patchArea + " " + timestep + " " + pptasesInSolution + " " + totalPptases);
+                        }
+                    }
+                }
+            }
+//            System.out.println("p_Pon total: " + totalP_Pon);
         }
     }
 
@@ -243,23 +264,19 @@ public class World {
         for (int x = 0; x < width; x++){
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
-                    double patchArea = patchLength * patchLength;
-
                     // Calculate enzyme densities (enzymes per unit area)
                     double kinaseDensity = tile.kinaseCount / patchArea;
-                    double phosphataseDensity = tile.pptaseCount / patchArea;
+                    double pptaseDensity = tile.pptaseCount / patchArea;
 
                     // Michaelis-Menten kinetics
                     // Kinase converts PIP1->PIP2 (increases X)
-                    double kinaseContribution = k_mkcat * kinaseDensity * (1.0 - tile.X)
+                    double kinaseContrib = k_mkcat * kinaseDensity * (1.0 - tile.X)
                             / (k_mKm + (1.0 - tile.X));
-
                     // Phosphatase converts PIP2->PIP1 (decreases X)
-                    double phosphataseContribution = -p_mkcat * phosphataseDensity * tile.X
+                    double pptaseContrib = -p_mkcat * pptaseDensity * tile.X
                             / (p_mKm + tile.X);
 
-                    double dX = (kinaseContribution + phosphataseContribution) * timestep;
-
+                    double dX = (kinaseContrib + pptaseContrib) * timestep;
                     tile.X = Math.max(0.0, Math.min(1.0, tile.X + dX));
                 }
             }
@@ -278,16 +295,16 @@ public class World {
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
                     updatedKinaseCount[x][y] = tile.kinaseCount;
-                    updatedPhosphataseCount[x][y] = tile.pptaseCount;
+                    updatedPptaseCount[x][y] = tile.pptaseCount;
                 } else {
                     updatedKinaseCount[x][y] = 0;
-                    updatedPhosphataseCount[x][y] = 0;
+                    updatedPptaseCount[x][y] = 0;
                 }
             }
         }
 
         // Probability of staying (from NetLogo)
-        double Pstay = 1.0 - (4.0 * alphaEnzyme * timestep) / (patchLength * patchLength);
+        double Pstay = 1.0 - (4.0 * alphaEnzyme * timestep) / patchArea;
 
         if (Pstay < 0) {
             System.err.println("WARNING: Enzyme diffusion unstable! Pstay = " + Pstay);
@@ -314,8 +331,8 @@ public class World {
                         if (random.nextDouble() >= Pstay) {
                             int[] newPos = getRandomNeighbor(x, y);
                             if (newPos != null) {
-                                updatedPhosphataseCount[x][y]--;
-                                updatedPhosphataseCount[newPos[0]][newPos[1]]++;
+                                updatedPptaseCount[x][y]--;
+                                updatedPptaseCount[newPos[0]][newPos[1]]++;
                             }
                         }
                     }
@@ -327,7 +344,7 @@ public class World {
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
                     tile.kinaseCount = updatedKinaseCount[x][y];
-                    tile.pptaseCount = updatedPhosphataseCount[x][y];
+                    tile.pptaseCount = updatedPptaseCount[x][y];
                 }
             }
         }
@@ -395,7 +412,7 @@ public class World {
             for (int y = 0; y < height; y++){
                 if (worldGrid[x][y] instanceof DTile tile) {
                     tile.X = updatedX[x][y];
-                    tile.upDateTile();
+                    tile.updateTile();
                 }
             }
         }
@@ -405,9 +422,9 @@ public class World {
 
     public int getTotalKinases() {return totalKinases;}
 
-    public int getPhosphatasesInSolution() {return phosphatasesInSolution;}
+    public int getPptasesInSolution() {return pptasesInSolution;}
 
-    public int getTotalPhosphatases() {return totalPhosphatases;}
+    public int getTotalPptases() {return totalPptases;}
 
     public int getTotalBoundKinases() {
         int total = 0;

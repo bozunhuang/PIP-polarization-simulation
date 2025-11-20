@@ -132,7 +132,7 @@ public class DataCollection {
 
         while (frameCount <= 5000) {
             // Update simulation status
-            world.upDateWorld();
+            world.updateWorld();
             // Increase frame count
             frameCount++;
         }
@@ -149,7 +149,7 @@ public class DataCollection {
         }
 
         row[i] = String.valueOf(world.getKinasesInSolution());
-        row[i + 1] = String.valueOf(world.getPhosphatasesInSolution());
+        row[i + 1] = String.valueOf(world.getPptasesInSolution());
         row[i + 2] = String.valueOf(world.getAvgBodyX());
         row[i + 3] = String.valueOf(world.getAvgOneNodeX(1));
         row[i + 4] = String.valueOf(world.getAvgOneNodeX(2));

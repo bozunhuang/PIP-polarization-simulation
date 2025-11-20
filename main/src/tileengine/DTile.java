@@ -17,7 +17,7 @@ public class DTile extends TETile {
 
     public DTile() {
         super(defaultChar, Color.black, Color.blue, 0);
-        upDateTile();
+        updateTile();
     }
 
     /**
@@ -30,13 +30,13 @@ public class DTile extends TETile {
         pptaseCount = t.pptaseCount;
         X = t.X;
         tracker = t.tracker;
-        upDateTile();
+        updateTile();
     }
 
     public DTile(int tracker) {
         super('/', Color.black, Color.blue, 0);
         this.tracker = tracker;
-        upDateTile();
+        updateTile();
     }
 
 
@@ -46,7 +46,7 @@ public class DTile extends TETile {
      * - Blue (PIP1) when X = 0
      * - Orange/Yellow (PIP2) when X = 1
      */
-    public void upDateTile() {
+    public void updateTile() {
         assert X >= 0 && X <= 1 : "X out of bounds: " + X;
 
         // NetLogo color scheme:
