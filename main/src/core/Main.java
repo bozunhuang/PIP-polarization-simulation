@@ -45,18 +45,20 @@ public class Main {
     public static void main(String[] args) {
         int totalKinases = 50;
         int totalPptases = 50;
-        double timestep = 0.01;
-        double patchLength = 0.5;
-        double dPip = 2.0;
-        double alphaEnzyme = 0.2;
-        double k_mkon = 0.005;      // kinase on-rate
-        double k_koff = 0.05;      // kinase off-rate
-        double p_mkon = 0.05;      // phosphatase on-rate
-        double p_koff = 0.01;      // phosphatase off-rate
-        double k_mkcat = 10;     // kinase catalytic rate
-        double k_mKm = 0.5;       // kinase Michaelis constant
-        double p_mkcat = 15;     // phosphatase catalytic rate
-        double p_mKm = 0.5;
+        // World parameters
+        double timestep = 0.01;      // affects rate of every process
+        double patchLength = 0.5;    // higher = more binding, less conversion/diffusion/motion
+        double dPip = 2.0;           // diffusion
+        double alphaEnzyme = 0.2;    // stochastic motion constant, higher = more motion
+        // Enzyme parameters (reference * adjustment)
+        double k_mkon = 0.01 * 10;   // kinase on-rate
+        double p_mkon = 0.0005 * 10; // phosphatase on-rate
+        double k_koff = 4.0 / 10;    // kinase off-rate
+        double p_koff = 0.2 / 10;    // phosphatase off-rate
+        double k_mkcat = 0.1 * 20;   // kinase catalytic rate
+        double p_mkcat = 0.4 * 20;   // phosphatase catalytic rate
+        double k_mKm = 0.1;          // kinase Michaelis constant
+        double p_mKm = 0.4;          // phosphatase Michaelis constant
 
         runGame(totalKinases, totalPptases, timestep, patchLength, dPip, alphaEnzyme, k_mkon, k_koff, p_mkon, p_koff, k_mkcat, k_mKm, p_mkcat, p_mKm);
     }
@@ -89,7 +91,7 @@ public class Main {
         long lastRefresh = System.currentTimeMillis();
         long timeSinceRefresh = 0;
 
-        while (frameCount <= 10000){
+        while (frameCount <= 30000){
 //            System.out.println(timeSinceRefresh);
             timeSinceRefresh = System.currentTimeMillis() - lastRefresh;
 

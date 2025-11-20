@@ -196,7 +196,7 @@ public class World {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 if (worldGrid[x][y] instanceof DTile tile) {
-                    if (kinasesInSolution > 0 && !kinaseBound) {
+                    if (kinasesInSolution > 0) {
                         // Calculate and store k_Pon (kinase binding probability)
                         // Kinase binding depends on X (binds to PIP2)
                         tile.k_Pon = k_mkon * tile.X * patchArea * timestep;
@@ -221,7 +221,7 @@ public class World {
                         }
                     }
 
-                    if (pptasesInSolution > 0 && !pptaseBound) {
+                    if (pptasesInSolution > 0) {
                         // Calculate and store p_Pon (phosphatase binding probability)
                         // Phosphatase binding depends on (1-X) (binds to PIP1)
                         tile.p_Pon = p_mkon * (1.0 - tile.X) * patchArea * timestep;
