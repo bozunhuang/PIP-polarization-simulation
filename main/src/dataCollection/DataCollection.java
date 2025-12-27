@@ -27,6 +27,7 @@ public class DataCollection {
     private static final int GRADIENT = 1;
     private static final int FIXED_PARAM = 2;
     private static final int FIXED_AND_PERIMETERS = 3;
+    private static final int SCALE_STUDY = 4;
 
 //    public static List<String[]> data = new ArrayList<>();
     public static List<String[]> data = Collections.synchronizedList(new ArrayList<>());
@@ -39,7 +40,11 @@ public class DataCollection {
         // Set parameter set generation mode
         int MODE = FIXED_AND_PERIMETERS;
 
+<<<<<<< HEAD
         outputFileName = "fix_param_test_3";
+=======
+        outputFileName = "most_params_fixed_test_1";
+>>>>>>> 985c16162676e91fe1a44ba03f60243433266432
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -91,9 +96,34 @@ public class DataCollection {
                     });
         }
 
+        if (MODE == SCALE_STUDY) {
+            int start_reps = 10;
+            int interval = 20;
+            int max = 100;
+            ArrayList<Double> params = Parameters.getFixedParameters();
+
+            for (int i = start_reps; i <= max; i += interval) {
+                IntStream.range(0, i)
+                        .parallel()
+                        .forEach(j -> {
+                            try {
+                                System.out.println("Starting run: " + j);
+                                runSimulation(params, j);
+                            } catch (Exception e) {
+                                System.err.println("Error in run " + j + ": " + e.getMessage());
+                            }
+                        });
+            }
+        }
+
         if (MODE == FIXED_AND_PERIMETERS) {
+<<<<<<< HEAD
             int runs = 29;
             int reps = 20;
+=======
+            int runs = 100;
+            int reps = 30;
+>>>>>>> 985c16162676e91fe1a44ba03f60243433266432
             ArrayList<ArrayList<Double>> paramSet = Parameters.getPerimeterFixedParameters(runs, reps);
             IntStream.range(0, runs * reps)
                     .parallel()

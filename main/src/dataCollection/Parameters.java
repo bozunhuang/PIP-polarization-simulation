@@ -5,11 +5,17 @@ import java.util.Random;
 
 public class Parameters {
     // Reference parameters
+<<<<<<< HEAD
     static double totalKinases = 50;
     static double totalPhosphatases = 50;
     static double timestep = 0.01;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
+=======
+    static double totalKinases = 100;
+    static double totalPhosphatases = 100;
+    static double timestep = 0.01;
+>>>>>>> 985c16162676e91fe1a44ba03f60243433266432
     static double patchLength = 0.5;
-    static double dPIP = 2;
+    static double dPIP = 3;
     static double alphaEnzyme = 0.2;
     static double k_mkon = 0.01;      // kinase on-rate
     static double k_koff = 0.05;      // kinase off-rate
@@ -22,28 +28,34 @@ public class Parameters {
 
     static Random random = new Random();
 
-    public static void main(String[] args) {
-        System.out.println(singleVariables(10).get(0));
-    }
+//    public static void main(String[] args) {
+//        System.out.println(singleVariables(10).get(0));
+//    }
 
-
+    /// We are fixing most parameters and only allowing a few to change
     public static ArrayList<Double> getPerimeters() {
         ArrayList<Double> parameterSet = new ArrayList<>();
-        int perturbFactor = 3;
-        parameterSet.add(random.nextDouble( 10, totalKinases * 10));
-        parameterSet.add(random.nextDouble(10, totalPhosphatases * 10));
+        int perturbFactor = 10;
+        parameterSet.add(random.nextDouble( 0, 1000));
+        parameterSet.add(random.nextDouble(0, 1000));
         parameterSet.add(timestep);
         parameterSet.add(patchLength);
-        parameterSet.add(dPIP + random.nextDouble(-1, 1));
-        parameterSet.add(random.nextDouble(alphaEnzyme / perturbFactor, alphaEnzyme * perturbFactor));
+//        parameterSet.add(dPIP + random.nextDouble(-1, 1));
+        parameterSet.add(dPIP);
+//        parameterSet.add(random.nextDouble(alphaEnzyme / perturbFactor, alphaEnzyme * perturbFactor));
+        parameterSet.add(alphaEnzyme);
         parameterSet.add(random.nextDouble(k_mkon / perturbFactor, k_mkon * perturbFactor));
         parameterSet.add(random.nextDouble(k_koff / perturbFactor, k_koff * perturbFactor));
         parameterSet.add(random.nextDouble(p_mkon / perturbFactor, p_mkon * perturbFactor));
         parameterSet.add(random.nextDouble(p_koff / perturbFactor, p_koff * perturbFactor));
-        parameterSet.add(random.nextDouble(k_mkcat / perturbFactor, k_mkcat * perturbFactor));
-        parameterSet.add(random.nextDouble(k_mKm / perturbFactor, k_mKm * perturbFactor));
-        parameterSet.add(random.nextDouble(p_mkcat / perturbFactor, p_mkcat * perturbFactor));
-        parameterSet.add(random.nextDouble(p_mKm / perturbFactor, p_mKm * perturbFactor));
+//        parameterSet.add(random.nextDouble(k_mkcat / perturbFactor, k_mkcat * perturbFactor));
+//        parameterSet.add(random.nextDouble(k_mKm / perturbFactor, k_mKm * perturbFactor));
+//        parameterSet.add(random.nextDouble(p_mkcat / perturbFactor, p_mkcat * perturbFactor));
+//        parameterSet.add(random.nextDouble(p_mKm / perturbFactor, p_mKm * perturbFactor));
+        parameterSet.add(k_mkcat);
+        parameterSet.add(k_mKm);
+        parameterSet.add(p_mkcat);
+        parameterSet.add(p_mKm);
         return parameterSet;
     }
 
