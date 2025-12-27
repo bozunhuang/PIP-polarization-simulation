@@ -37,9 +37,9 @@ public class DataCollection {
     public static void main(String[] args) {
 
         // Set parameter set generation mode
-        int MODE = FIXED_PARAM;
+        int MODE = FIXED_AND_PERIMETERS;
 
-        outputFileName = "fix_param_test_1";
+        outputFileName = "fix_param_test_3";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -92,8 +92,8 @@ public class DataCollection {
         }
 
         if (MODE == FIXED_AND_PERIMETERS) {
-            int runs = 20;
-            int reps = 30;
+            int runs = 29;
+            int reps = 20;
             ArrayList<ArrayList<Double>> paramSet = Parameters.getPerimeterFixedParameters(runs, reps);
             IntStream.range(0, runs * reps)
                     .parallel()
