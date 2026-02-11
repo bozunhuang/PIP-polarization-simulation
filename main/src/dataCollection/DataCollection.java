@@ -38,9 +38,9 @@ public class DataCollection {
     public static void main(String[] args) {
 
         // Set parameter set generation mode
-        int MODE = FIXED_AND_PERIMETERS;
+        int MODE = PERIMETERS;
 
-        outputFileName = "most_params_fixed_test_1";
+        outputFileName = "asymmetry_test_1";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -65,17 +65,17 @@ public class DataCollection {
                     });
         }
 
-        if  (MODE == GRADIENT) {
-            ArrayList<ArrayList<ArrayList<Double>>> paramSet = Parameters.singleVariables(20);
-            int i = 1;
-            for (ArrayList<ArrayList<Double>> paramSubset : paramSet) {
-                for (ArrayList<Double> params : paramSubset) {
-                    System.out.println("Starting run: " + i);
-                    runSimulation(params, i);
-                    i++;
-                }
-            }
-        }
+//        if  (MODE == GRADIENT) {
+//            ArrayList<ArrayList<ArrayList<Double>>> paramSet = Parameters.singleVariables(20);
+//            int i = 1;
+//            for (ArrayList<ArrayList<Double>> paramSubset : paramSet) {
+//                for (ArrayList<Double> params : paramSubset) {
+//                    System.out.println("Starting run: " + i);
+//                    runSimulation(params, i);
+//                    i++;
+//                }
+//            }
+//        }
 
         if   (MODE == FIXED_PARAM) {
             ArrayList<Double> params = Parameters.getFixedParameters();

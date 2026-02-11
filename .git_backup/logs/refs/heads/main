@@ -1,0 +1,15 @@
+0000000000000000000000000000000000000000 e1fb67ac3d7fa024c668ef6a50d29dfb4c6971c2 Jerry Huang <bozunhuang@berkeley.edu> 1763015707 -0800	clone: from https://github.com/bozunhuang/PIP-polarization-simulation.git
+e1fb67ac3d7fa024c668ef6a50d29dfb4c6971c2 e6eb0cf6ce09419713d89b0b2cea624b9f2da59a Jerry Huang <bozunhuang@berkeley.edu> 1763069626 -0800	commit: finished implementing four lobe
+e6eb0cf6ce09419713d89b0b2cea624b9f2da59a 7c95e4775b3d343952debdc29f14021231af8055 Jerry Huang <bozunhuang@berkeley.edu> 1763069690 -0800	commit: follow up commit
+7c95e4775b3d343952debdc29f14021231af8055 ab5e896bc7d312d9d74b1b989159eb8607280ca7 Jerry Huang <bozunhuang@berkeley.edu> 1763325233 -0800	commit: working on fixed params
+ab5e896bc7d312d9d74b1b989159eb8607280ca7 822a986b77921ce704db78ad7453e0234bcd64bd Jerry Huang <bozunhuang@berkeley.edu> 1763325696 -0800	commit (merge): Merge remote-tracking branch 'origin/main'
+822a986b77921ce704db78ad7453e0234bcd64bd df756e08517842847dc4b900f7607898d7352dc3 Jerry Huang <bozunhuang@berkeley.edu> 1763345841 -0800	merge origin/main: Fast-forward
+df756e08517842847dc4b900f7607898d7352dc3 972f785bf7c8aa9bf9254774a2cbff02f4d3599d Jerry Huang <bozunhuang@berkeley.edu> 1763346270 -0800	commit: fixed params complete
+972f785bf7c8aa9bf9254774a2cbff02f4d3599d c1a075f0c8708e7e644aeafba36ad558e6759dba Jerry Huang <bozunhuang@berkeley.edu> 1763346460 -0800	commit: renamed notebook
+c1a075f0c8708e7e644aeafba36ad558e6759dba f7fa666831bb4ab8bcd7ae615fd7589eac47f43c Jerry Huang <bozunhuang@berkeley.edu> 1763353590 -0800	pull --no-stat -v --progress origin main: Fast-forward
+f7fa666831bb4ab8bcd7ae615fd7589eac47f43c 331aa0bbeccb486c8454abeec9bdd2db4793767b Jerry <bozunhuang@berkeley.edu> 1763850076 -0800	pull --no-stat -v --progress origin main: Fast-forward
+331aa0bbeccb486c8454abeec9bdd2db4793767b c99ba80389652562e003e2f0d5cdca1c3447c428 Jerry <bozunhuang@berkeley.edu> 1766685866 -0800	commit: commit before dev
+c99ba80389652562e003e2f0d5cdca1c3447c428 f9d5bea54decbc41088887bba92f4467e0f1200c Jerry <bozunhuang@berkeley.edu> 1766686013 -0800	commit: old changes
+f9d5bea54decbc41088887bba92f4467e0f1200c 3f3398a08a073002f8b8eb6fea13738b87ffe93d Jerry <bozunhuang@berkeley.edu> 1766736887 -0800	commit: studying sample size and fixing some parameters
+3f3398a08a073002f8b8eb6fea13738b87ffe93d 985c16162676e91fe1a44ba03f60243433266432 Jerry <bozunhuang@berkeley.edu> 1766736980 -0800	commit: follow up of the previous commit
+ca13bc830d9f773ce482e269e343bd40d36cb8bc 11eb4af4b8b4465c587ff6de503b1286dbe82636 Jerry <bozunhuang@berkeley.edu> 1770793310 -0800	commit: updating data analysis
