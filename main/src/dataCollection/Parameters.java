@@ -5,15 +5,9 @@ import java.util.Random;
 
 public class Parameters {
     // Reference parameters
-<<<<<<< HEAD
-    static double totalKinases = 50;
-    static double totalPhosphatases = 50;
-    static double timestep = 0.01;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-=======
     static double totalKinases = 100;
     static double totalPhosphatases = 100;
     static double timestep = 0.01;
->>>>>>> 985c16162676e91fe1a44ba03f60243433266432
     static double patchLength = 0.5;
     static double dPIP = 3;
     static double alphaEnzyme = 0.2;
