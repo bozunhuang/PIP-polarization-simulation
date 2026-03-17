@@ -5,20 +5,29 @@ import java.util.Random;
 
 public class Parameters {
     // Reference parameters
-    static double totalKinases = 100;
-    static double totalPhosphatases = 100;
+    static double totalKinases = 50;
+    static double totalPhosphatases = 50;
     static double timestep = 0.01;
     static double patchLength = 0.5;
-    static double dPIP = 3;
+    static double dPIP = 2.0;
     static double alphaEnzyme = 0.2;
-    static double k_mkon = 0.01;      // kinase on-rate
-    static double k_koff = 0.05;      // kinase off-rate
-    static double p_mkon = 0.05;      // phosphatase on-rate
-    static double p_koff = 0.01;      // phosphatase off-rate
-    static double k_mkcat = 10.0;     // kinase catalytic rate
-    static double k_mKm = 0.5;       // kinase Michaelis constant
-    static double p_mkcat = 15;     // phosphatase catalytic rate
-    static double p_mKm = 0.5;
+//    static double k_mkon = 0.01;      // kinase on-rate
+//    static double k_koff = 0.005;      // kinase off-rate
+//    static double p_mkon = 0.05;      // phosphatase on-rate
+//    static double p_koff = 0.01;      // phosphatase off-rate
+//    static double k_mkcat = 10.0;     // kinase catalytic rate
+//    static double k_mKm = 0.5;       // kinase Michaelis constant
+//    static double p_mkcat = 15;     // phosphatase catalytic rate
+//    static double p_mKm = 0.5;
+
+    static double k_mkon = 0.01;   // kinase on-rate
+    static double p_mkon = 0.0005 * 10; // phosphatase on-rate
+    static double k_koff = 4.0 / 10;    // kinase off-rate
+    static double p_koff = 0.2 / 10;    // phosphatase off-rate
+    static double k_mkcat = 0.1 * 20;   // kinase catalytic rate
+    static double p_mkcat = 0.4 * 20;   // phosphatase catalytic rate
+    static double k_mKm = 0.1;          // kinase Michaelis constant
+    static double p_mKm = 0.4;          // phosphatase Michaelis constant
 
     static Random random = new Random();
 
@@ -29,9 +38,9 @@ public class Parameters {
     /// We are fixing most parameters and only allowing a few to change
     public static ArrayList<Double> getPerimeters() {
         ArrayList<Double> parameterSet = new ArrayList<>();
-        int perturbFactor = 10;
-        parameterSet.add(random.nextDouble( 0, 1000));
-        parameterSet.add(random.nextDouble(0, 1000));
+        double perturbFactor = 1.5;
+        parameterSet.add(random.nextDouble( 0, 200));
+        parameterSet.add(random.nextDouble(0, 200));
         parameterSet.add(timestep);
         parameterSet.add(patchLength);
 //        parameterSet.add(dPIP + random.nextDouble(-1, 1));

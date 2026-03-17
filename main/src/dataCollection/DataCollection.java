@@ -40,7 +40,7 @@ public class DataCollection {
         // Set parameter set generation mode
         int MODE = PERIMETERS;
 
-        outputFileName = "asymmetry_test_1";
+        outputFileName = "asymmetry_test_4";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
@@ -151,7 +151,7 @@ public class DataCollection {
 
         long frameCount = 0;
 
-        while (frameCount <= 5000) {
+        while (frameCount <= 10000) {
             // Update simulation status
             world.updateWorld();
             // Increase frame count
