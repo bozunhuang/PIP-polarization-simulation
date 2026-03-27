@@ -40,7 +40,7 @@ public class DataCollection {
         // Set parameter set generation mode
         int MODE = PERIMETERS;
 
-        outputFileName = "asymmetry_test_4";
+        outputFileName = "asymmetry_test_5";
 
 //        if (MODE == PERIMETERS) {
 //            for (int i = 0; i < runs; i++) {
